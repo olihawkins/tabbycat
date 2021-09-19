@@ -2,5 +2,6 @@
 
 export(cat_contrast)
 export(cat_count)
+export(cat_vcount)
 importFrom(magrittr,"%>%")
 importFrom(rlang,.data)

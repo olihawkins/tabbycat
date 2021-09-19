@@ -4,7 +4,7 @@
 \alias{cat_count}
 \title{Count the frequency of discrete values in the column of a dataframe}
 \usage{
-cat_count(data, cat, na.rm = FALSE)
+cat_count(data, cat, na.rm = FALSE, only = "")
 }
 \arguments{
 \item{data}{A data frame containing the vector to summarise.}
@@ -14,11 +14,21 @@ of discrete values for which frequencies will be calculated.}
 
 \item{na.rm}{A boolean indicating whether to exclude NAs from the results.
 The default is FALSE.}
+
+\item{only}{An optional argument indicating that only one of the frequency
+columns should be returned in the results. If \code{only} is either
+"number" or "n", only the number column is returned. If \code{only} is
+either "percent" or "p", only the percent column is returned. If
+\code{only} is any other value, both columns are shown. The default value
+is an empty string, which means both columns are shown.}
 }
 \value{
 A tibble showing the frequency of each value in the input vector.
 }
 \description{
 Calculates the frequency of discrete values in the column of a dataframe
-containing and returns the counts as a tibble.
+containing and returns the counts as a tibble. This function differs from
+\code{cat_vcount} in that it operates on columns in dataframes rather than
+directly on vectors, which means it's more useful in pipelines but handles
+a narrower range of inputs.
 }

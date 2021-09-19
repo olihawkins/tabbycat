@@ -1,20 +1,30 @@
 #' Count the frequency of discrete values in the column of a dataframe
 #'
 #' Calculates the frequency of discrete values in the column of a dataframe
-#' containing and returns the counts as a tibble.
+#' containing and returns the counts as a tibble. This function differs from
+#' \code{cat_vcount} in that it operates on columns in dataframes rather than
+#' directly on vectors, which means it's more useful in pipelines but handles
+#' a narrower range of inputs.
 #'
 #' @param data A data frame containing the vector to summarise.
 #' @param cat The name of a column in \code{data} which is a categorical vector
 #'   of discrete values for which frequencies will be calculated.
 #' @param na.rm A boolean indicating whether to exclude NAs from the results.
 #'   The default is FALSE.
+#' @param only An optional argument indicating that only one of the frequency
+#'   columns should be returned in the results. If \code{only} is either
+#'   "number" or "n", only the number column is returned. If \code{only} is
+#'   either "percent" or "p", only the percent column is returned. If
+#'   \code{only} is any other value, both columns are shown. The default value
+#'   is an empty string, which means both columns are shown.
 #' @return A tibble showing the frequency of each value in the input vector.
 #' @export
 
 cat_count <- function(
     data,
     cat,
-    na.rm = FALSE) {
+    na.rm = FALSE,
+    only = "") {
 
     # Check the data argument is not null and is a dataframe
     if (is.null(data) || ! is.data.frame(data)) {

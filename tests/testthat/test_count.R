@@ -6,7 +6,7 @@ data <- mtcars %>%
     tibble::rownames_to_column("model") %>%
     tibble::as_tibble() %>%
     dplyr::mutate(
-        manufacturer = stringr::str_split(model, " ", simplify = TRUE)[,1])
+        manufacturer = stringr::str_split(model, " ", simplify = TRUE)[, 1])
 
 data$cyl[1] <- NA
 
