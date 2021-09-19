@@ -1,0 +1,29 @@
+Package: tabbycat
+Type: Package
+Title: Tabulate and Summarise Categorical Data
+Version: 0.1.0
+Authors@R: 
+    person(
+        given = "Oliver",
+        family = "Hawkins",
+        role = c("aut", "cre"),
+        email = "oli@olihawkins.com")
+Maintainer: Oliver Hawkins <oli@olihawkins.com>
+Description: A small library of functions for tabulating and 
+    summarising categorical variables in dataframes.
+License: BSD_3_clause + file LICENSE
+Depends: 
+    R (>= 3.4.0)
+Imports:
+    dplyr (>= 1.0.0),
+    janitor,
+    magrittr,
+    rlang,
+    stringr,
+    tibble,
+    tidyr
+Encoding: UTF-8
+RoxygenNote: 7.1.2
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
