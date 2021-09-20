@@ -1,6 +1,6 @@
 # tabbycat
 
-A small library of functions for tabulating and summarising categorical variables. Most of the functions are designed to work on dataframes and use the tidyverse idiom of taking the dataframe as the first argument, so they fit nicely into pipelines. Equivalent functions that operate directly on vectors are also provided, where it makes sense.
+`tabbycat` is a small library of functions for tabulating and summarising categorical variables. Most of the functions are designed to work on dataframes, and use the tidyverse idiom of taking the dataframe as the first argument so they fit easily into pipelines. Equivalent functions that operate directly on vectors are also provided, where it makes sense.
 
 **This package is in development and is not ready for general use.**
 
@@ -15,7 +15,7 @@ remotes::install_github("olihawkins/tabbycat")
 
 ## cat_count
 
-`cat_count` calculates the frequency of discrete values in the column of a dataframe and returns the counts as a tibble.
+`cat_count` calculates the frequency of discrete values in the column of a dataframe and returns the counts as a tibble. This function operates on columns in dataframes, but an equivalent function `cat_vcount` provides the same functionality for vectors.
 
 ``` r
 # Load tidyverse for the mpg dataset
@@ -37,7 +37,7 @@ cat_count(mpg, "class")
 
 ## cat_vcount
 
-`cat_vcount` is equivalent to `cat_count` but works directly on vectors, rather than columns in a dataframe. It calculates the frequency of discrete values in a vector and returns the counts as a tibble. `cat_vcount` can therefore handle a wider range of inputs but does not fit as easily into pipelines.
+`cat_vcount` is equivalent to `cat_count` but works directly on vectors: it calculates the frequency of discrete values in a vector and returns the counts as a tibble. `cat_vcount` can handle a wider range of inputs than `cat_count` but it does not fit as easily into pipelines.
 
 ``` r
 # Load tidyverse for the mpg dataset
