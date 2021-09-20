@@ -1,6 +1,6 @@
 # tabbycat
 
-`tabbycat` is a small library of functions for tabulating and summarising categorical variables. Most of the functions are designed to work on dataframes and use the tidyverse idiom of taking the dataframe as the first argument so they fit easily into pipelines. Equivalent functions that operate directly on vectors are also provided where it makes sense.
+`tabbycat` is a small library of functions for tabulating and summarising categorical variables. Most of the functions are designed to work on dataframes, and use the tidyverse idiom of taking the dataframe as the first argument so they fit easily into pipelines. Equivalent functions that operate directly on vectors are also provided where it makes sense.
 
 **This package is in development and is not ready for general use.**
 
