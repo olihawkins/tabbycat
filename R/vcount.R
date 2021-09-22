@@ -8,29 +8,21 @@
 #'
 #' @param cat A categorical vector of discrete values for which
 #'   frequencies will be calculated.
-#' @param name The column name to use for the column of categories in the
-#'   results as a string. By default, the variable name of the input vector is
-#'   used.
-#' @param by The column name by which to sort the results as a string. Must be
-#'   one of either "n" or "cat". The default is "count".
-#' @param order The order in which to sort the results as a string. Must be
-#'   one of either "asc" or "desc". The default depends on the value of the
-#'   \code{by} argument. If \code{by} is "count" the default \code{order} is
-#'   "desc". If \code{by} is "category" the default \code{order} is "asc".
 #' @param na.rm A boolean indicating whether to exclude NAs from the results.
 #'   The default is FALSE.
+#' @param only An optional argument indicating that only one of the frequency
+#'   columns should be returned in the results. If \code{only} is either "n" or
+#'   "number", only the number column is returned. If \code{only} is either
+#'   "p" or "percent", only the percent column is returned. If \code{only} is
+#'   any other value, both columns are shown. The default value is an empty
+#'   string, which means both columns are shown.
 #' @return A tibble showing the frequency of each value in the input vector.
 #' @export
 
 cat_vcount <- function(
     cat,
-    name = NULL,
-    by = "number",
-    order = ifelse(by == "category", "asc", "desc"),
-    na.rm = FALSE) {
-
-    # Get the variable name of the cat argument
-    obj_name <- deparse(substitute(cat))
+    na.rm = FALSE,
+    only = "") {
 
     # Check the cat argument is not null and is a vector
     if (is.null(cat) || ! is.atomic(cat)) {
@@ -42,47 +34,47 @@ cat_vcount <- function(
         stop("The cat argument is empty.")
     }
 
-    # Check the sort arguments are valid
-    if (length(by) != 1 || ! by %in% c("number", "category")) {
-        stop("Invalid \"by\" argument. Must be either \"number\" or \"category\".")
-    }
-
-    if (length(order) != 1 || ! order %in% c("asc", "desc")) {
-        stop("Invalid \"order\" argument. Must be either \"asc\" or \"desc\".")
-    }
-
     # Check the na.rm argument is valid
     if (is.na(na.rm) || ! is.logical(na.rm)) {
         stop("Invalid \"na.rm\" argument. Must be either TRUE or FALSE.")
     }
 
-    # If name is not provided use the variable name
-    if (is.null(name)) {
-        # If the name is a dataframe and a column extract the column name
-        if(stringr::str_detect(obj_name, "\\$")) {
-            obj_name <- stringr::str_split_fixed(obj_name, "\\$", 2)[1, 2]
-        }
-        name <- obj_name
+    # Check the only argument is valid
+    if (length(only) != 1 || is.na(only) || ! is.character(only)) {
+        stop("Invalid \"only\" argument. Must be a single string.")
     }
 
-    # Check the name argument is valid
-    if (length(name) != 1 || is.na(name) || ! is.atomic(cat)) {
-        stop("Invalid \"name\" argument. Must be a string.")
+    # Get the variable name of the cat argument
+    obj_name <- deparse(substitute(cat))
+
+    # If the name is a dataframe and a column extract the column name
+    if(stringr::str_detect(obj_name, "\\$")) {
+        obj_name <- stringr::str_split_fixed(obj_name, "\\$", 2)[1, 2]
     }
 
-    # Set the sort properties for the call to arrange
-    by_col <- ifelse(by == "n", "n", name)
-    order_func <- ifelse(order == "desc", dplyr::desc, function(d){d})
+    # Set the name
+    name <- obj_name
 
     # Set option for handling NAs
     use_na <- ifelse(na.rm, "no", "ifany")
 
     # Create the results dataframe and return
-    tibble::as_tibble(
+    count <- tibble::as_tibble(
         table(
             cat,
             useNA = use_na),
-            .name_repair = ~ c(name, "number")) |>
-        dplyr::arrange(order_func(.data[[by_col]])) |>
-        dplyr::mutate(percent = .data$number / sum(.data$number))
+            .name_repair = ~ c(name, "number")) %>%
+        dplyr::mutate(percent = .data$number / sum(.data$number)) %>%
+        dplyr::arrange(dplyr::desc(.data$number))
+
+    # Remove any columns based on only argument
+    if (stringr::str_trim(only) %in% c("n", "number")) {
+        count <- count %>% dplyr::select(.data[[name]], .data$number)
+    }
+
+    if (stringr::str_trim(only) %in% c("p", "percent")) {
+        count <- count %>% dplyr::select(.data[[name]], .data$percent)
+    }
+
+    count
 }

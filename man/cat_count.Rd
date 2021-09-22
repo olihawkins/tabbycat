@@ -16,11 +16,11 @@ of discrete values for which frequencies will be calculated.}
 The default is FALSE.}
 
 \item{only}{An optional argument indicating that only one of the frequency
-columns should be returned in the results. If \code{only} is either
-"number" or "n", only the number column is returned. If \code{only} is
-either "percent" or "p", only the percent column is returned. If
-\code{only} is any other value, both columns are shown. The default value
-is an empty string, which means both columns are shown.}
+columns should be returned in the results. If \code{only} is either "n" or
+"number", only the number column is returned. If \code{only} is either
+"p" or "percent", only the percent column is returned. If \code{only} is
+any other value, both columns are shown. The default value is an empty
+string, which means both columns are shown.}
 }
 \value{
 A tibble showing the frequency of each value in the input vector.

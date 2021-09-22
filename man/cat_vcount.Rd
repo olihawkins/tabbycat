@@ -4,32 +4,21 @@
 \alias{cat_vcount}
 \title{Count the frequency of discrete values in a categorical vector}
 \usage{
-cat_vcount(
-  cat,
-  name = NULL,
-  by = "number",
-  order = ifelse(by == "category", "asc", "desc"),
-  na.rm = FALSE
-)
+cat_vcount(cat, na.rm = FALSE, only = "")
 }
 \arguments{
 \item{cat}{A categorical vector of discrete values for which
 frequencies will be calculated.}
 
-\item{name}{The column name to use for the column of categories in the
-results as a string. By default, the variable name of the input vector is
-used.}
-
-\item{by}{The column name by which to sort the results as a string. Must be
-one of either "n" or "cat". The default is "count".}
-
-\item{order}{The order in which to sort the results as a string. Must be
-one of either "asc" or "desc". The default depends on the value of the
-\code{by} argument. If \code{by} is "count" the default \code{order} is
-"desc". If \code{by} is "category" the default \code{order} is "asc".}
-
 \item{na.rm}{A boolean indicating whether to exclude NAs from the results.
 The default is FALSE.}
+
+\item{only}{An optional argument indicating that only one of the frequency
+columns should be returned in the results. If \code{only} is either "n" or
+"number", only the number column is returned. If \code{only} is either
+"p" or "percent", only the percent column is returned. If \code{only} is
+any other value, both columns are shown. The default value is an empty
+string, which means both columns are shown.}
 }
 \value{
 A tibble showing the frequency of each value in the input vector.

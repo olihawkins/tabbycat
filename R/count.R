@@ -12,11 +12,11 @@
 #' @param na.rm A boolean indicating whether to exclude NAs from the results.
 #'   The default is FALSE.
 #' @param only An optional argument indicating that only one of the frequency
-#'   columns should be returned in the results. If \code{only} is either
-#'   "number" or "n", only the number column is returned. If \code{only} is
-#'   either "percent" or "p", only the percent column is returned. If
-#'   \code{only} is any other value, both columns are shown. The default value
-#'   is an empty string, which means both columns are shown.
+#'   columns should be returned in the results. If \code{only} is either "n" or
+#'   "number", only the number column is returned. If \code{only} is either
+#'   "p" or "percent", only the percent column is returned. If \code{only} is
+#'   any other value, both columns are shown. The default value is an empty
+#'   string, which means both columns are shown.
 #' @return A tibble showing the frequency of each value in the input vector.
 #' @export
 
@@ -51,16 +51,31 @@ cat_count <- function(
         stop("Invalid \"na.rm\" argument. Must be either TRUE or FALSE.")
     }
 
+    # Check the only argument is valid
+    if (length(only) != 1 || is.na(only) || ! is.character(only)) {
+        stop("Invalid \"only\" argument. Must be a single string.")
+    }
+
     # Remove rows with NAs if na.rm is TRUE
     if (na.rm == TRUE) {
         data <- data %>% dplyr::filter(! is.na(.data[[cat]]))
     }
 
+    # Create table
     count <- data %>%
         dplyr::group_by(.data[[cat]]) %>%
         dplyr::summarise(number = dplyr::n(), .groups = "drop") %>%
         dplyr::mutate(percent = .data$number / sum(.data$number)) %>%
         dplyr::arrange(dplyr::desc(.data$number))
+
+    # Remove any columns based on only argument
+    if (stringr::str_trim(only) %in% c("n", "number")) {
+        count <- count %>% dplyr::select(.data[[cat]], .data$number)
+    }
+
+    if (stringr::str_trim(only) %in% c("p", "percent")) {
+        count <- count %>% dplyr::select(.data[[cat]], .data$percent)
+    }
 
     count
 }
