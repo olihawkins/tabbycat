@@ -6,7 +6,15 @@
 each of two mutually exclusive groups within another categorical variable
 and returns the results as a tibble}
 \usage{
-cat_contrast(data, dist_cat, group_cat, group_name, na.rm = FALSE, only = "")
+cat_contrast(
+  data,
+  dist_cat,
+  group_cat,
+  group_name,
+  na.rm = FALSE,
+  clean_names = TRUE,
+  only = ""
+)
 }
 \arguments{
 \item{data}{A dataframe containing the two variables of interest.}
@@ -26,8 +34,12 @@ in the group and those that are not in the group.}
 \item{na.rm}{A boolean indicating whether to exclude NAs from the results.
 The default is FALSE.}
 
-\item{only}{An optional argument indicating that only one set of frequency
-columns should be returned in the results. If \code{only} is either "n" or
+\item{clean_names}{A boolean indicating whether the column names of the
+results tibble should be cleaned, so that any column names produced from
+data are converted to snake_case. The default is TRUE.}
+
+\item{only}{A string indicating that only one set of frequency columns
+should be returned in the results. If \code{only} is either "n" or
 "number", only the number columns are returned. If \code{only} is either
 "p" or "percent", only the percent columns are returned. If \code{only} is
 any other value, both sets of columns are shown. The default value is an

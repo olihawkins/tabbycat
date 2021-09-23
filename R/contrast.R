@@ -20,8 +20,11 @@
 #'   in the group and those that are not in the group.
 #' @param na.rm A boolean indicating whether to exclude NAs from the results.
 #'   The default is FALSE.
-#' @param only An optional argument indicating that only one set of frequency
-#'   columns should be returned in the results. If \code{only} is either "n" or
+#' @param clean_names A boolean indicating whether the column names of the
+#'   results tibble should be cleaned, so that any column names produced from
+#'   data are converted to snake_case. The default is TRUE.
+#' @param only A string indicating that only one set of frequency columns
+#'   should be returned in the results. If \code{only} is either "n" or
 #'   "number", only the number columns are returned. If \code{only} is either
 #'   "p" or "percent", only the percent columns are returned. If \code{only} is
 #'   any other value, both sets of columns are shown. The default value is an
@@ -36,6 +39,7 @@ cat_contrast <- function(
     group_cat,
     group_name,
     na.rm = FALSE,
+    clean_names = TRUE,
     only = "") {
 
     # Check the data argument is not null and is a dataframe
@@ -87,6 +91,11 @@ cat_contrast <- function(
         stop("Invalid \"na.rm\" argument. Must be either TRUE or FALSE.")
     }
 
+    # Check the clean_names argument is valid
+    if (is.na(clean_names) || ! is.logical(clean_names)) {
+        stop("Invalid \"clean_names\" argument. Must be either TRUE or FALSE.")
+    }
+
     # Check the only argument is valid
     if (length(only) != 1 || is.na(only) || ! is.character(only)) {
         stop("Invalid \"only\" argument. Must be a single string.")
@@ -114,7 +123,7 @@ cat_contrast <- function(
         dplyr::group_by(.data[[dist_cat]]) %>%
         dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
         dplyr::mutate(p = .data$n / sum(.data$n)) %>%
-        dplyr::mutate(group = "Other") %>%
+        dplyr::mutate(group = "other") %>%
         dplyr::select(
             .data$group,
             .data[[dist_cat]],
@@ -127,8 +136,12 @@ cat_contrast <- function(
             names_from = .data$group,
             values_from = c(.data$n, .data$p)) %>%
         dplyr::mutate(dplyr::across(-1, ~tidyr::replace_na(.x, 0))) %>%
-        dplyr::arrange(dplyr::desc(.data[[stringr::str_c("n_", group_name)]])) %>%
-        janitor::clean_names()
+        dplyr::arrange(dplyr::desc(.data[[stringr::str_c("n_", group_name)]]))
+
+    # Clean names if clean_names is TRUE
+    if (clean_names == TRUE) {
+        comparison <- comparison %>% janitor::clean_names()
+    }
 
     # Remove columns based on only argument
     if (stringr::str_trim(only) %in% c("n", "number")) {

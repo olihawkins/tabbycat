@@ -31,6 +31,17 @@ test_that("cat_vcount rejects invalid na.rm arguments", {
     expect_error(cat_vcount(cat, na.rm = ""), msg)
 })
 
+test_that("cat_vcount rejects invalid clean_names arguments", {
+
+    msg <- "Invalid \"clean_names\" argument. Must be either TRUE or FALSE."
+    expect_error(cat_vcount(cat, clean_names = NULL), msg)
+    expect_error(cat_vcount(cat, clean_names = NA), msg)
+    expect_error(cat_vcount(cat, clean_names = list()), msg)
+    expect_error(cat_vcount(cat, clean_names = data.frame()), msg)
+    expect_error(cat_vcount(cat, clean_names = 1), msg)
+    expect_error(cat_vcount(cat, clean_names = ""), msg)
+})
+
 test_that("cat_vcount rejects invalid only arguments", {
 
     msg <- "Invalid \"only\" argument. Must be a single string."
@@ -80,6 +91,25 @@ test_that("cat_vcount returns expected data with a valid na.rm argument", {
         number = 4:1,
         percent = number / sum(number))
     observed <- cat_vcount(cat, na.rm = TRUE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_count returns correct data with a valid clean_names argument", {
+
+    Cat <- cat
+
+    expected <- tibble::tibble(
+        cat = letters[4:1],
+        number = 4:1,
+        percent = number / sum(number))
+    observed <- cat_vcount(Cat, clean_names = TRUE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        Cat = letters[4:1],
+        number = 4:1,
+        percent = number / sum(number))
+    observed <- cat_vcount(Cat, clean_names = FALSE)
     expect_equal(observed, expected)
 })
 

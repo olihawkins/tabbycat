@@ -79,6 +79,17 @@ test_that("cat_contrast rejects invalid na.rm arguments", {
     expect_error(cat_contrast(data, "cyl", "manufacturer", "Merc", na.rm = ""), msg)
 })
 
+test_that("cat_contrast rejects invalid clean_names arguments", {
+
+    msg <- "Invalid \"clean_names\" argument. Must be either TRUE or FALSE."
+    expect_error(cat_contrast(data, "cyl", "manufacturer", "Merc", clean_names = NULL), msg)
+    expect_error(cat_contrast(data, "cyl", "manufacturer", "Merc", clean_names = NA), msg)
+    expect_error(cat_contrast(data, "cyl", "manufacturer", "Merc", clean_names = list()), msg)
+    expect_error(cat_contrast(data, "cyl", "manufacturer", "Merc", clean_names = data.frame()), msg)
+    expect_error(cat_contrast(data, "cyl", "manufacturer", "Merc", clean_names = 1), msg)
+    expect_error(cat_contrast(data, "cyl", "manufacturer", "Merc", clean_names = ""), msg)
+})
+
 test_that("cat_contrast rejects invalid only arguments", {
 
     msg <- "Invalid \"only\" argument. Must be a single string."
@@ -138,8 +149,40 @@ test_that("cat_contrast returns correct data with a valid na.rm argument", {
     expect_equal(observed, expected)
 })
 
+test_that("cat_contrast returns correct data with a valid clean_names argument", {
 
-test_that("cat_vcount returns correct data with a valid only argument", {
+    data$Cyl <- data$cyl
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 4, 1),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.44, 0.36, 0.16, 0.04))
+    observed <- cat_contrast(
+        data,
+        "Cyl",
+        "manufacturer",
+        "Merc",
+        clean_names = TRUE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        Cyl = c(8, 4, 6, NA),
+        n_Merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 4, 1),
+        p_Merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.44, 0.36, 0.16, 0.04))
+    observed <- cat_contrast(
+        data,
+        "Cyl",
+        "manufacturer",
+        "Merc",
+        clean_names = FALSE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_contrast returns correct data with a valid only argument", {
 
     expected <- tibble::tibble(
         cyl = c(8, 4, 6, NA),

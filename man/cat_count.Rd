@@ -4,7 +4,7 @@
 \alias{cat_count}
 \title{Count the frequency of discrete values in the column of a dataframe}
 \usage{
-cat_count(data, cat, na.rm = FALSE, only = "")
+cat_count(data, cat, na.rm = FALSE, clean_names = TRUE, only = "")
 }
 \arguments{
 \item{data}{A data frame containing the vector to summarise.}
@@ -15,8 +15,12 @@ of discrete values for which frequencies will be calculated.}
 \item{na.rm}{A boolean indicating whether to exclude NAs from the results.
 The default is FALSE.}
 
-\item{only}{An optional argument indicating that only one of the frequency
-columns should be returned in the results. If \code{only} is either "n" or
+\item{clean_names}{A boolean indicating whether the column names of the
+results tibble should be cleaned, so that any column names produced from
+data are converted to snake_case. The default is TRUE.}
+
+\item{only}{A string indicating that only one of the frequency columns
+should be returned in the results. If \code{only} is either "n" or
 "number", only the number column is returned. If \code{only} is either
 "p" or "percent", only the percent column is returned. If \code{only} is
 any other value, both columns are shown. The default value is an empty

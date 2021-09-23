@@ -53,6 +53,17 @@ test_that("cat_count rejects invalid na.rm arguments", {
     expect_error(cat_count(data, "cyl", na.rm = ""), msg)
 })
 
+test_that("cat_count rejects invalid clean_names arguments", {
+
+    msg <- "Invalid \"clean_names\" argument. Must be either TRUE or FALSE."
+    expect_error(cat_count(data, "cyl", clean_names = NULL), msg)
+    expect_error(cat_count(data, "cyl", clean_names = NA), msg)
+    expect_error(cat_count(data, "cyl", clean_names = list()), msg)
+    expect_error(cat_count(data, "cyl", clean_names = data.frame()), msg)
+    expect_error(cat_count(data, "cyl", clean_names = 1), msg)
+    expect_error(cat_count(data, "cyl", clean_names = ""), msg)
+})
+
 test_that("cat_count rejects invalid only arguments", {
 
     msg <- "Invalid \"only\" argument. Must be a single string."
@@ -89,6 +100,25 @@ test_that("cat_count returns correct data with a valid na.rm argument", {
         number = c(14, 11, 6),
         percent = c(0.4516129032, 0.3548387097, 0.1935483871))
     observed <- cat_count(data, "cyl", na.rm = TRUE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_count returns correct data with a valid clean_names argument", {
+
+    data$Cyl <- data$cyl
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        number = c(14, 11, 6, 1),
+        percent = c(0.43750, 0.34375, 0.18750, 0.03125))
+    observed <- cat_count(data, "Cyl", clean_names = TRUE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        Cyl = c(8, 4, 6, NA),
+        number = c(14, 11, 6, 1),
+        percent = c(0.43750, 0.34375, 0.18750, 0.03125))
+    observed <- cat_count(data, "Cyl", clean_names = FALSE)
     expect_equal(observed, expected)
 })
 

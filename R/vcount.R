@@ -10,8 +10,11 @@
 #'   frequencies will be calculated.
 #' @param na.rm A boolean indicating whether to exclude NAs from the results.
 #'   The default is FALSE.
-#' @param only An optional argument indicating that only one of the frequency
-#'   columns should be returned in the results. If \code{only} is either "n" or
+#' @param clean_names A boolean indicating whether the column names of the
+#'   results tibble should be cleaned, so that any column names produced from
+#'   data are converted to snake_case. The default is TRUE.
+#' @param only A string indicating that only one of the frequency columns
+#'   should be returned in the results. If \code{only} is either "n" or
 #'   "number", only the number column is returned. If \code{only} is either
 #'   "p" or "percent", only the percent column is returned. If \code{only} is
 #'   any other value, both columns are shown. The default value is an empty
@@ -22,6 +25,7 @@
 cat_vcount <- function(
     cat,
     na.rm = FALSE,
+    clean_names = TRUE,
     only = "") {
 
     # Check the cat argument is not null and is a vector
@@ -37,6 +41,11 @@ cat_vcount <- function(
     # Check the na.rm argument is valid
     if (is.na(na.rm) || ! is.logical(na.rm)) {
         stop("Invalid \"na.rm\" argument. Must be either TRUE or FALSE.")
+    }
+
+    # Check the clean_names argument is valid
+    if (is.na(clean_names) || ! is.logical(clean_names)) {
+        stop("Invalid \"clean_names\" argument. Must be either TRUE or FALSE.")
     }
 
     # Check the only argument is valid
@@ -66,6 +75,11 @@ cat_vcount <- function(
             .name_repair = ~ c(name, "number")) %>%
         dplyr::mutate(percent = .data$number / sum(.data$number)) %>%
         dplyr::arrange(dplyr::desc(.data$number))
+
+    # Clean names if clean_names is TRUE
+    if (clean_names == TRUE) {
+        count <- count %>% janitor::clean_names()
+    }
 
     # Remove columns based on only argument
     if (stringr::str_trim(only) %in% c("n", "number")) {
