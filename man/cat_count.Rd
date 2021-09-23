@@ -8,10 +8,10 @@ return the results as a tibble}
 cat_count(data, cat, na.rm = FALSE, clean_names = TRUE, only = "")
 }
 \arguments{
-\item{data}{A data frame containing the vector to summarise.}
+\item{data}{A data frame containing a categorical vector to summarise.}
 
-\item{cat}{The name of a column in \code{data} which is a categorical vector
-of discrete values for which frequencies will be calculated.}
+\item{cat}{The column name of a categorical variable for which frequencies
+will be calculated.}
 
 \item{na.rm}{A boolean indicating whether to exclude NAs from the results.
 The default is FALSE.}

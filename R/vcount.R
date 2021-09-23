@@ -7,8 +7,7 @@
 #'
 #' The results are sorted in decending order of frequency.
 #'
-#' @param cat A categorical vector of discrete values for which
-#'   frequencies will be calculated.
+#' @param cat A categorical vector of for which frequencies will be calculated.
 #' @param na.rm A boolean indicating whether to exclude NAs from the results.
 #'   The default is FALSE.
 #' @param clean_names A boolean indicating whether the column names of the

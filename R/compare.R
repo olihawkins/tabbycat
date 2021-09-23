@@ -5,14 +5,17 @@
 #' This function crosstabulates the frequencies of one categorical variable
 #' within the groups of another.
 #'
-#' The results are sorted in alphabetical order for the variable whose
-#' distribution is shown in each column (i.e. the\code{dist_cat}).
+#' The results are sorted on the values of the variable whose distribution is
+#' shown in each column i.e. the variable specified with \code{dist_cat}. If
+#' this variable is a character vector it will be sorted alphabetically, and if
+#' it is a factor it will be sorted in the order of its levels.
 #'
 #' @param data A dataframe containing the two variables of interest.
-#' @param dist_cat The name of a categorical variable whose distribution should
-#'   be calculated for each group.
-#' @param group_cat The name of a categorical variable which will be split into
-#'   groups the and the distrubtion calulated for each group.
+#' @param dist_cat The column name of a categorical variable whose distribution
+#'   will be calculated for each group in \code{group_cat}.
+#' @param group_cat The column name of a categorical variable which will be
+#'   split into groups and the distrubtion of \code{dist_cat} calulated
+#'   for each group.
 #' @param na.rm A boolean indicating whether to exclude NAs from the results.
 #'   The default is FALSE.
 #' @param clean_names A boolean indicating whether the column names of the

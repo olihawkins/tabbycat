@@ -19,11 +19,11 @@ cat_contrast(
 \arguments{
 \item{data}{A dataframe containing the two variables of interest.}
 
-\item{dist_cat}{The name of a categorical variable whose distribution should
-be calculated for each group.}
+\item{dist_cat}{The column name of a categorical variable whose distribution
+should be calculated for each exclusive group in \code{group_cat}.}
 
-\item{group_cat}{The name of a categorical variable that will be split
-into two exclusive groups, one belonging to observations with a
+\item{group_cat}{The column name of a categorical variable that will be
+split into two exclusive groups, one containing observations with a
 particular value of that variable, and another containing all other
 observations.}
 
@@ -58,5 +58,5 @@ from the distribution for the rest of the observations.
 }
 \details{
 The results are sorted in decending order of frequency for the named group
-(i.e. the\code{group_name}).
+i.e. the group named in \code{group_name}.
 }

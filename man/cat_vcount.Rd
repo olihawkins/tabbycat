@@ -8,8 +8,7 @@ the counts as a tibble}
 cat_vcount(cat, na.rm = FALSE, clean_names = TRUE, only = "")
 }
 \arguments{
-\item{cat}{A categorical vector of discrete values for which
-frequencies will be calculated.}
+\item{cat}{A categorical vector of for which frequencies will be calculated.}
 
 \item{na.rm}{A boolean indicating whether to exclude NAs from the results.
 The default is FALSE.}
