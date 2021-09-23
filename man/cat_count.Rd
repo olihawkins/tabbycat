@@ -2,7 +2,8 @@
 % Please edit documentation in R/count.R
 \name{cat_count}
 \alias{cat_count}
-\title{Count the frequency of discrete values in the column of a dataframe}
+\title{Count the frequency of discrete values in the column of a dataframe and
+return the results as a tibble}
 \usage{
 cat_count(data, cat, na.rm = FALSE, clean_names = TRUE, only = "")
 }
@@ -30,9 +31,10 @@ string, which means both columns are shown.}
 A tibble showing the frequency of each value in the input vector.
 }
 \description{
-Calculates the frequency of discrete values in the column of a dataframe
-containing and returns the counts as a tibble. This function differs from
-\code{cat_vcount} in that it operates on columns in dataframes rather than
-directly on vectors, which means it's more useful in pipelines but handles
-a narrower range of inputs.
+This function differs from \code{cat_vcount} in that it operates on columns
+in dataframes rather than directly on vectors, which means it is more useful
+in pipelines but handles a narrower range of inputs.
+}
+\details{
+The results are sorted in decending order of frequency.
 }

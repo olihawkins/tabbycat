@@ -1,10 +1,11 @@
-#' Count the frequency of discrete values in a categorical vector
+#' Count the frequency of discrete values in a categorical vector and return
+#' the counts as a tibble
 #'
-#' Calculates the frequency of discrete values in a categorical vector and
-#' returns the counts as a tibble. This function differs from \code{cat_count}
-#' in that it operates directly on vectors. rather than on columns in
-#' dataframes, which means it's less useful in pipelines but can handle a
-#' wider range of inputs.
+#' This function differs from \code{cat_count} in that it operates directly on
+#' vectors. rather than on columns in dataframes, which means it is less useful
+#' in pipelines but can handle a wider range of inputs.
+#'
+#' The results are sorted in decending order of frequency.
 #'
 #' @param cat A categorical vector of discrete values for which
 #'   frequencies will be calculated.

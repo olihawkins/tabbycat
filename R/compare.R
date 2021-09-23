@@ -1,26 +1,18 @@
 #' Calculate the frequency of discrete values in one categorical variable for
-#' each of two mutually exclusive groups within another categorical variable
-#' and return the results as a tibble
+#' each group within another categorical variable and return the results as a
+#' tibble
 #'
-#' This function shows the distrbution of values within given a categorical
-#' variable for one group within another categorical variable, and compares it
-#' with the distribution among all observations not in that group. Its purpose
-#' is to let you see quickly whether the distribution within that group differs
-#' from the distribution for the rest of the observations.
+#' This function crosstabulates the frequencies of one categorical variable
+#' within the groups of another.
 #'
-#' The results are sorted in decending order of frequency for the named group
-#' (i.e. the\code{group_name}).
+#' The results are sorted in alphabetical order for the variable whose
+#' distribution is shown in each column (i.e. the\code{dist_cat}).
 #'
 #' @param data A dataframe containing the two variables of interest.
 #' @param dist_cat The name of a categorical variable whose distribution should
 #'   be calculated for each group.
-#' @param group_cat The name of a categorical variable that will be split
-#'   into two exclusive groups, one belonging to observations with a
-#'   particular value of that variable, and another containing all other
-#'   observations.
-#' @param group_name The name of the group within \code{group_cat} that is
-#'   used to split the observations into two exclusive groups: those that are
-#'   in the group and those that are not in the group.
+#' @param group_cat The name of a categorical variable which will be split into
+#'   groups the and the distrubtion calulated for each group.
 #' @param na.rm A boolean indicating whether to exclude NAs from the results.
 #'   The default is FALSE.
 #' @param clean_names A boolean indicating whether the column names of the
@@ -36,11 +28,10 @@
 #'   the two exclusive groups in \code{group_cat}.
 #' @export
 
-cat_contrast <- function(
+cat_compare <- function(
     data,
     dist_cat,
     group_cat,
-    group_name,
     na.rm = FALSE,
     clean_names = TRUE,
     only = "") {
@@ -63,7 +54,7 @@ cat_contrast <- function(
     # Check the dist_cat argument is a column in data
     if (! dist_cat %in% colnames(data)) {
         stop(stringr::str_c("'", dist_cat,
-            "' is not a column in the dataframe."))
+                            "' is not a column in the dataframe."))
     }
 
     # Check the group_cat argument is not null
@@ -74,19 +65,7 @@ cat_contrast <- function(
     # Check the group_cat argument is a column in data
     if (! group_cat %in% colnames(data)) {
         stop(stringr::str_c("'", group_cat,
-            "' is not a column in the dataframe."))
-    }
-
-    # Check the group_name argument is not null
-    if (is.null(group_name) || is.na(group_name)) {
-        stop("The group_name argument is null.")
-    }
-
-    # Check that group_name exits in group_cat
-    if (! group_name %in% data[[group_cat]]) {
-        stop(stringr::str_c(
-            "The group_name '", group_name,
-            "' does not exist in the group_cat '", group_cat, "'."))
+                            "' is not a column in the dataframe."))
     }
 
     # Check the na.rm argument is valid
@@ -109,37 +88,30 @@ cat_contrast <- function(
         data <- data %>% dplyr::filter(! is.na(.data[[dist_cat]]))
     }
 
-    in_group_data <- data %>%
-        dplyr::filter(.data[[group_cat]] == group_name) %>%
-        dplyr::group_by(.data[[dist_cat]]) %>%
-        dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
-        dplyr::mutate(p = .data$n / sum(.data$n)) %>%
-        dplyr::mutate(group = as.character(group_name)) %>%
-        dplyr::select(
-            .data$group,
-            .data[[dist_cat]],
-            .data$n,
-            .data$p)
+    group_names <- unique(data[[group_cat]])
 
-    out_group_data <- data %>%
-        dplyr::filter(.data[[group_cat]] != group_name) %>%
-        dplyr::group_by(.data[[dist_cat]]) %>%
-        dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
-        dplyr::mutate(p = .data$n / sum(.data$n)) %>%
-        dplyr::mutate(group = "other") %>%
-        dplyr::select(
-            .data$group,
-            .data[[dist_cat]],
-            .data$n,
-            .data$p)
+    comparison_data <- purrr::map_dfr(group_names, function(group_name) {
 
-    comparison <- dplyr::bind_rows(in_group_data, out_group_data) %>%
+        data %>%
+            dplyr::filter(.data[[group_cat]] == group_name) %>%
+            dplyr::group_by(.data[[dist_cat]]) %>%
+            dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
+            dplyr::mutate(p = .data$n / sum(.data$n)) %>%
+            dplyr::mutate(group = as.character(group_name)) %>%
+            dplyr::select(
+                .data$group,
+                .data[[dist_cat]],
+                .data$n,
+                .data$p)
+    })
+
+    comparison <- comparison_data %>%
         tidyr::pivot_wider(
             id_cols = {{dist_cat}},
             names_from = .data$group,
             values_from = c(.data$n, .data$p)) %>%
         dplyr::mutate(dplyr::across(-1, ~tidyr::replace_na(.x, 0))) %>%
-        dplyr::arrange(dplyr::desc(.data[[stringr::str_c("n_", group_name)]]))
+        dplyr::arrange(.data[[dist_cat]])
 
     # Clean names if clean_names is TRUE
     if (clean_names == TRUE) {
