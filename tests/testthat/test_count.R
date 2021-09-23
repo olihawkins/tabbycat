@@ -101,39 +101,29 @@ test_that("cat_count returns correct data with a valid only argument", {
     observed <- cat_count(data, "cyl", only = "ignore")
     expect_equal(observed, expected)
 
-    expected <- tibble::tibble(
+    expected_number <- tibble::tibble(
         cyl = c(8, 4, 6, NA),
         number = c(14, 11, 6, 1))
+
     observed <- cat_count(data, "cyl", only = "n")
-    expect_equal(observed, expected)
+    expect_equal(observed, expected_number)
 
-    expected <- tibble::tibble(
-        cyl = c(8, 4, 6, NA),
-        number = c(14, 11, 6, 1))
     observed <- cat_count(data, "cyl", only = "number")
-    expect_equal(observed, expected)
+    expect_equal(observed, expected_number)
 
-    expected <- tibble::tibble(
-        cyl = c(8, 4, 6, NA),
-        number = c(14, 11, 6, 1))
     observed <- cat_count(data, "cyl", only = " number ")
-    expect_equal(observed, expected)
+    expect_equal(observed, expected_number)
 
-    expected <- tibble::tibble(
+    expected_percent <- tibble::tibble(
         cyl = c(8, 4, 6, NA),
         percent = c(0.43750, 0.34375, 0.18750, 0.03125))
+
     observed <- cat_count(data, "cyl", only = "p")
-    expect_equal(observed, expected)
+    expect_equal(observed, expected_percent)
 
-    expected <- tibble::tibble(
-        cyl = c(8, 4, 6, NA),
-        percent = c(0.43750, 0.34375, 0.18750, 0.03125))
     observed <- cat_count(data, "cyl", only = "percent")
-    expect_equal(observed, expected)
+    expect_equal(observed, expected_percent)
 
-    expected <- tibble::tibble(
-        cyl = c(8, 4, 6, NA),
-        percent = c(0.43750, 0.34375, 0.18750, 0.03125))
     observed <- cat_count(data, "cyl", only = " percent ")
-    expect_equal(observed, expected)
+    expect_equal(observed, expected_percent)
 })

@@ -20,6 +20,12 @@
 #'   in the group and those that are not in the group.
 #' @param na.rm A boolean indicating whether to exclude NAs from the results.
 #'   The default is FALSE.
+#' @param only An optional argument indicating that only one set of frequency
+#'   columns should be returned in the results. If \code{only} is either "n" or
+#'   "number", only the number columns are returned. If \code{only} is either
+#'   "p" or "percent", only the percent columns are returned. If \code{only} is
+#'   any other value, both sets of columns are shown. The default value is an
+#'   empty string, which means both sets of columns are shown.
 #' @return A tibble showing the distribution of \code{dist_cat} within each of
 #'   the two exclusive groups in \code{group_cat}.
 #' @export
@@ -29,7 +35,8 @@ cat_contrast <- function(
     dist_cat,
     group_cat,
     group_name,
-    na.rm = FALSE) {
+    na.rm = FALSE,
+    only = "") {
 
     # Check the data argument is not null and is a dataframe
     if (is.null(data) || ! is.data.frame(data)) {
@@ -80,6 +87,11 @@ cat_contrast <- function(
         stop("Invalid \"na.rm\" argument. Must be either TRUE or FALSE.")
     }
 
+    # Check the only argument is valid
+    if (length(only) != 1 || is.na(only) || ! is.character(only)) {
+        stop("Invalid \"only\" argument. Must be a single string.")
+    }
+
     # Remove rows with NAs if na.rm is TRUE
     if (na.rm == TRUE) {
         data <- data %>% dplyr::filter(! is.na(.data[[dist_cat]]))
@@ -117,6 +129,15 @@ cat_contrast <- function(
         dplyr::mutate(dplyr::across(-1, ~tidyr::replace_na(.x, 0))) %>%
         dplyr::arrange(dplyr::desc(.data[[stringr::str_c("n_", group_name)]])) %>%
         janitor::clean_names()
+
+    # Remove columns based on only argument
+    if (stringr::str_trim(only) %in% c("n", "number")) {
+        comparison <- comparison %>% dplyr::select(-dplyr::starts_with("p_"))
+    }
+
+    if (stringr::str_trim(only) %in% c("p", "percent")) {
+        comparison <- comparison %>% dplyr::select(-dplyr::starts_with("n_"))
+    }
 
     comparison
 }

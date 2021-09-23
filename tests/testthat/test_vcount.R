@@ -43,89 +43,78 @@ test_that("cat_vcount rejects invalid only arguments", {
     expect_error(cat_vcount(cat, only = c("n", "p")), msg)
 })
 
-test_that("cat_vcount returns correct data with defaults", {
+test_that("cat_vcount returns expected data with defaults", {
 
-    correct <- tibble::tibble(
+    expected <- tibble::tibble(
         cat = letters[4:1],
         number = 4:1,
         percent = number / sum(number))
-    output <- cat_vcount(cat)
-    expect_equal(output, correct)
+    observed <- cat_vcount(cat)
+    expect_equal(observed, expected)
 })
 
-test_that("cat_vcount returns correct data with a valid na.rm argument", {
+test_that("cat_vcount returns expected data with a valid na.rm argument", {
 
     cat <- c(cat, NA)
 
-    correct <- tibble::tibble(
+    expected <- tibble::tibble(
         cat = c(letters[4:1], NA),
         number = as.integer(c(4:1, 1)),
         percent = number / sum(number))
-    output <- cat_vcount(cat)
-    expect_equal(output[2:3], correct[2:3])
-    expect_equal(output[1:4, ], correct[1:4, ])
-    expect_equal(is.na(output[[5, 1]]), TRUE)
+    observed <- cat_vcount(cat)
+    expect_equal(observed[2:3], expected[2:3])
+    expect_equal(observed[1:4, ], expected[1:4, ])
+    expect_equal(is.na(observed[[5, 1]]), TRUE)
 
-    correct <- tibble::tibble(
+    expected <- tibble::tibble(
         cat = c(letters[4:1], NA),
         number = as.integer(c(4:1, 1)),
         percent = number / sum(number))
-    output <- cat_vcount(cat, na.rm = FALSE)
-    expect_equal(output[2:3], correct[2:3])
-    expect_equal(output[1:4, ], correct[1:4, ])
-    expect_equal(is.na(output[[5, 1]]), TRUE)
+    observed <- cat_vcount(cat, na.rm = FALSE)
+    expect_equal(observed[2:3], expected[2:3])
+    expect_equal(observed[1:4, ], expected[1:4, ])
+    expect_equal(is.na(observed[[5, 1]]), TRUE)
 
-    correct <- tibble::tibble(
+    expected <- tibble::tibble(
         cat = letters[4:1],
         number = 4:1,
         percent = number / sum(number))
-    output <- cat_vcount(cat, na.rm = TRUE)
-    expect_equal(output, correct)
+    observed <- cat_vcount(cat, na.rm = TRUE)
+    expect_equal(observed, expected)
 })
 
-test_that("cat_vcount returns correct data with a valid only argument", {
+test_that("cat_vcount returns expected data with a valid only argument", {
 
-    correct <- tibble::tibble(
+    expected <- tibble::tibble(
         cat = letters[4:1],
         number = 4:1,
         percent = number / sum(number))
-    output <- cat_vcount(cat, only = "ignore")
-    expect_equal(output, correct)
+    observed <- cat_vcount(cat, only = "ignore")
+    expect_equal(observed, expected)
 
-    correct <- tibble::tibble(
+    expected_number <- tibble::tibble(
         cat = letters[4:1],
         number = 4:1)
-    output <- cat_vcount(cat, only = "n")
-    expect_equal(output, correct)
+    observed <- cat_vcount(cat, only = "n")
+    expect_equal(observed, expected_number)
 
-    correct <- tibble::tibble(
-        cat = letters[4:1],
-        number = 4:1)
-    output <- cat_vcount(cat, only = "number")
-    expect_equal(output, correct)
+    observed <- cat_vcount(cat, only = "number")
+    expect_equal(observed, expected_number)
 
-    correct <- tibble::tibble(
-        cat = letters[4:1],
-        number = 4:1)
-    output <- cat_vcount(cat, only = " number ")
-    expect_equal(output, correct)
+    observed <- cat_vcount(cat, only = " number ")
+    expect_equal(observed, expected_number)
 
-    correct <- tibble::tibble(
+    expected_percent <- tibble::tibble(
         cat = letters[4:1],
         percent = 4:1 / sum(4:1))
-    output <- cat_vcount(cat, only = "p")
-    expect_equal(output, correct)
 
-    correct <- tibble::tibble(
-        cat = letters[4:1],
-        percent = 4:1 / sum(4:1))
-    output <- cat_vcount(cat, only = "percent")
-    expect_equal(output, correct)
+    observed <- cat_vcount(cat, only = "p")
+    expect_equal(observed, expected_percent)
 
-    correct <- tibble::tibble(
-        cat = letters[4:1],
-        percent = 4:1 / sum(4:1))
-    output <- cat_vcount(cat, only = " percent ")
-    expect_equal(output, correct)
+    observed <- cat_vcount(cat, only = "percent")
+    expect_equal(observed, expected_percent)
+
+    observed <- cat_vcount(cat, only = " percent ")
+    expect_equal(observed, expected_percent)
 })
 

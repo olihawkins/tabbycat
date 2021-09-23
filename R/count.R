@@ -68,13 +68,13 @@ cat_count <- function(
         dplyr::mutate(percent = .data$number / sum(.data$number)) %>%
         dplyr::arrange(dplyr::desc(.data$number))
 
-    # Remove any columns based on only argument
+    # Remove columns based on only argument
     if (stringr::str_trim(only) %in% c("n", "number")) {
-        count <- count %>% dplyr::select(.data[[cat]], .data$number)
+        count <- count %>% dplyr::select(-.data$percent)
     }
 
     if (stringr::str_trim(only) %in% c("p", "percent")) {
-        count <- count %>% dplyr::select(.data[[cat]], .data$percent)
+        count <- count %>% dplyr::select(-.data$number)
     }
 
     count
