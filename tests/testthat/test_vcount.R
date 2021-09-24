@@ -8,7 +8,7 @@ cat <- c("a", "b", "b", "c", "c", "c", "d", "d", "d", "d")
 
 test_that("cat_vcount rejects a cat argument that is not a vector", {
 
-    msg <- "The cat argument is not a vector."
+    msg <- "The \"cat\" argument is not a vector."
     expect_error(cat_vcount(NULL), msg)
     expect_error(cat_vcount(list()), msg)
     expect_error(cat_vcount(data.frame()), msg)
@@ -16,7 +16,7 @@ test_that("cat_vcount rejects a cat argument that is not a vector", {
 
 test_that("cat_vcount rejects a cat argument that is an empty factor", {
 
-    msg <- "The cat argument is empty."
+    msg <- "The \"cat\" argument is empty."
     expect_error(cat_vcount(factor()), msg)
 })
 
@@ -25,10 +25,12 @@ test_that("cat_vcount rejects invalid na.rm arguments", {
     msg <- "Invalid \"na.rm\" argument. Must be either TRUE or FALSE."
     expect_error(cat_vcount(cat, na.rm = NULL), msg)
     expect_error(cat_vcount(cat, na.rm = NA), msg)
-    expect_error(cat_vcount(cat, na.rm = list()), msg)
-    expect_error(cat_vcount(cat, na.rm = data.frame()), msg)
     expect_error(cat_vcount(cat, na.rm = 1), msg)
     expect_error(cat_vcount(cat, na.rm = ""), msg)
+    expect_error(cat_vcount(cat, na.rm = LETTERS[1:10]), msg)
+    expect_error(cat_vcount(cat, na.rm = 1:10), msg)
+    expect_error(cat_vcount(cat, na.rm = c(TRUE, FALSE)), msg)
+    expect_error(cat_vcount(cat, na.rm = list()), msg)
 })
 
 test_that("cat_vcount rejects invalid clean_names arguments", {
@@ -36,10 +38,12 @@ test_that("cat_vcount rejects invalid clean_names arguments", {
     msg <- "Invalid \"clean_names\" argument. Must be either TRUE or FALSE."
     expect_error(cat_vcount(cat, clean_names = NULL), msg)
     expect_error(cat_vcount(cat, clean_names = NA), msg)
-    expect_error(cat_vcount(cat, clean_names = list()), msg)
-    expect_error(cat_vcount(cat, clean_names = data.frame()), msg)
     expect_error(cat_vcount(cat, clean_names = 1), msg)
     expect_error(cat_vcount(cat, clean_names = ""), msg)
+    expect_error(cat_vcount(cat, clean_names = LETTERS[1:10]), msg)
+    expect_error(cat_vcount(cat, clean_names = 1:10), msg)
+    expect_error(cat_vcount(cat, clean_names = c(TRUE, FALSE)), msg)
+    expect_error(cat_vcount(cat, clean_names = list()), msg)
 })
 
 test_that("cat_vcount rejects invalid only arguments", {
@@ -47,11 +51,12 @@ test_that("cat_vcount rejects invalid only arguments", {
     msg <- "Invalid \"only\" argument. Must be a single string."
     expect_error(cat_vcount(cat, only = NULL), msg)
     expect_error(cat_vcount(cat, only = NA), msg)
-    expect_error(cat_vcount(cat, only = list()), msg)
-    expect_error(cat_vcount(cat, only = data.frame()), msg)
     expect_error(cat_vcount(cat, only = 1), msg)
     expect_error(cat_vcount(cat, only = TRUE), msg)
-    expect_error(cat_vcount(cat, only = c("n", "p")), msg)
+    expect_error(cat_vcount(cat, only = LETTERS[1:10]), msg)
+    expect_error(cat_vcount(cat, only = 1:10), msg)
+    expect_error(cat_vcount(cat, only = c(TRUE, FALSE)), msg)
+    expect_error(cat_vcount(cat, only = list()), msg)
 })
 
 test_that("cat_vcount returns expected data with defaults", {

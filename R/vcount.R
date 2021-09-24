@@ -30,21 +30,21 @@ cat_vcount <- function(
 
     # Check the cat argument is not null and is a vector
     if (is.null(cat) || ! is.atomic(cat)) {
-        stop("The cat argument is not a vector.")
+        stop("The \"cat\" argument is not a vector.")
     }
 
     # Check the cat argument is not an empty factor
     if (length(cat) == 0) {
-        stop("The cat argument is empty.")
+        stop("The \"cat\" argument is empty.")
     }
 
     # Check the na.rm argument is valid
-    if (is.na(na.rm) || ! is.logical(na.rm)) {
+    if (length(na.rm) != 1 || is.na(na.rm) || ! is.logical(na.rm)) {
         stop("Invalid \"na.rm\" argument. Must be either TRUE or FALSE.")
     }
 
     # Check the clean_names argument is valid
-    if (is.na(clean_names) || ! is.logical(clean_names)) {
+    if (length(clean_names) != 1 || is.na(clean_names) || ! is.logical(clean_names)) {
         stop("Invalid \"clean_names\" argument. Must be either TRUE or FALSE.")
     }
 

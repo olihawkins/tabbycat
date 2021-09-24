@@ -27,17 +27,17 @@ cat_summarise <- function(
 
     # Check the data argument is not null and is a dataframe
     if (is.null(data) || ! is.data.frame(data)) {
-        stop("The data argument is not a dataframe.")
+        stop("The \"data\" argument is not a dataframe.")
     }
 
     # Check that data has rows
     if (nrow(data) == 0) {
-        stop("The data argument is empty.")
+        stop("The \"data\" argument is empty.")
     }
 
-    # Check the cat argument is not null
-    if (is.null(cat) || is.na(cat)) {
-        stop("The cat argument is null.")
+    # Check the cat argument is a character vector of length one
+    if (! is.character(cat) || length(cat) != 1) {
+        stop("The \"cat\" argument is not a character vector of length one.")
     }
 
     # Check the cat argument is a column in data
@@ -45,9 +45,9 @@ cat_summarise <- function(
         stop(stringr::str_c("'", cat, "' is not a column in the dataframe."))
     }
 
-    # Check the num argument is not null
-    if (is.null(num) || is.na(num)) {
-        stop("The num argument is null.")
+    # Check the num argument is a character vector of length one
+    if (! is.character(num) || length(num) != 1) {
+        stop("The \"num\" argument is not a character vector of length one.")
     }
 
     # Check the num argument is a column in data
@@ -57,22 +57,37 @@ cat_summarise <- function(
 
     # Check the num argument is numeric
     if (! is.numeric(data[[num]])) {
-        stop(stringr::str_c("'", num, "' is not a numeric variable."))
+        stop(stringr::str_c("The num argument is not a numeric column."))
     }
 
     # Check the na.rm argument is valid
-    if (is.na(na.rm) || ! is.logical(na.rm)) {
+    if (length(na.rm) != 1 || is.na(na.rm) || ! is.logical(na.rm)) {
         stop("Invalid \"na.rm\" argument. Must be either TRUE or FALSE.")
     }
 
     # Check the clean_names argument is valid
-    if (is.na(clean_names) || ! is.logical(clean_names)) {
+    if (length(clean_names) != 1 || is.na(clean_names) || ! is.logical(clean_names)) {
         stop("Invalid \"clean_names\" argument. Must be either TRUE or FALSE.")
     }
 
     # Remove rows with NAs if na.rm is TRUE
     if (na.rm == TRUE) {
-        data <- data %>% dplyr::filter(! is.na(.data[[cat]]))
+
+        if (any(is.na(data[[cat]])) || any(is.null(data[[cat]]))) {
+            message(stringr::str_c(
+                "Rows with missing values in column '", cat,
+                "' have been removed."))
+        }
+
+        if (any(is.na(data[[num]])) || any(is.null(data[[num]]))) {
+            message(stringr::str_c(
+                "Rows with missing values in column '", num,
+                "' have been removed."))
+        }
+
+        data <- data %>%
+            dplyr::filter(! is.na(.data[[cat]])) %>%
+            dplyr::filter(! is.na(.data[[num]]))
     }
 
     # Create table
@@ -80,13 +95,14 @@ cat_summarise <- function(
         dplyr::group_by(.data[[cat]]) %>%
         dplyr::summarise(
             n = dplyr::n(),
-            mean = mean(.data[[num]]),
-            sd = stats::sd(.data[[num]]),
-            min = min(.data[[num]]),
-            lqrt = unname(stats::quantile(.data[[num]], 0.25)),
-            med = stats::median(.data[[num]]),
-            uqrt = unname(stats::quantile(.data[[num]], 0.75)),
-            max = max(.data[[num]]),
+            na = sum(is.na(.data[[num]])),
+            mean = mean(.data[[num]], na.rm = TRUE),
+            sd = stats::sd(.data[[num]], na.rm = TRUE),
+            min = min(.data[[num]], na.rm = TRUE),
+            lq = unname(stats::quantile(.data[[num]], 0.25, na.rm = TRUE)),
+            med = stats::median(.data[[num]], na.rm = TRUE),
+            uq = unname(stats::quantile(.data[[num]], 0.75, na.rm = TRUE)),
+            max = max(.data[[num]], na.rm = TRUE),
             .groups = "drop") %>%
         dplyr::arrange(.data[[cat]])
 

@@ -8,31 +8,45 @@ and return the results as a tibble}
 \usage{
 cat_contrast(
   data,
-  dist_cat,
-  group_cat,
-  group_name,
-  na.rm = FALSE,
+  row_cat,
+  col_cat,
+  col_group,
+  na.rm.row = FALSE,
+  na.rm.col = FALSE,
+  na.rm = NULL,
   clean_names = TRUE,
-  only = ""
+  only = "",
+  other_label = "other",
+  na_label = "na"
 )
 }
 \arguments{
 \item{data}{A dataframe containing the two variables of interest.}
 
-\item{dist_cat}{The column name of a categorical variable whose distribution
-should be calculated for each exclusive group in \code{group_cat}.}
+\item{row_cat}{The column name of a categorical variable whose distribution
+should be calculated for each exclusive group in \code{col_cat}.}
 
-\item{group_cat}{The column name of a categorical variable that will be
+\item{col_cat}{The column name of a categorical variable that will be
 split into two exclusive groups, one containing observations with a
 particular value of that variable, and another containing all other
 observations.}
 
-\item{group_name}{The name of the group within \code{group_cat} that is
+\item{col_group}{The name of the group within \code{col_cat} that is
 used to split the observations into two exclusive groups: those that are
 in the group and those that are not in the group.}
 
-\item{na.rm}{A boolean indicating whether to exclude NAs from the results.
-The default is FALSE.}
+\item{na.rm.row}{A boolean indicating whether to exclude NAs from the row
+results. The default is FALSE.}
+
+\item{na.rm.col}{A boolean indicating whether to exclude NAs from the column
+results. The default is FALSE.}
+
+\item{na.rm}{A boolean indicating whether to exclude NAs from both row and
+column results. This argument is provided as a convenience. It allows you
+to set \code{na.rm.row} and \code{na.rm.col} to the same value without
+having to specify them separately. If the value of \code{na.rm} is NULL,
+the argument is ignored. If it is not NULL it takes precendence.
+default is NULL.}
 
 \item{clean_names}{A boolean indicating whether the column names of the
 results tibble should be cleaned, so that any column names produced from
@@ -44,10 +58,20 @@ should be returned in the results. If \code{only} is either "n" or
 "p" or "percent", only the percent columns are returned. If \code{only} is
 any other value, both sets of columns are shown. The default value is an
 empty string, which means both sets of columns are shown.}
+
+\item{other_label}{A string indicating the label to use for the columns that
+contain data for observations not in the named group. The default value is
+"other", but use this argument to set a different value if the default
+value collides with data in your dataset.}
+
+\item{na_label}{A string indicating the label to use for the columns that
+contain data for missing values. The default value is "na", but use this
+argument to set a different value if the default  value collides with data
+in your dataset.}
 }
 \value{
-A tibble showing the distribution of \code{dist_cat} within each of
-  the two exclusive groups in \code{group_cat}.
+A tibble showing the distribution of \code{row_cat} within each of
+  the two exclusive groups in \code{col_cat}.
 }
 \description{
 This function shows the distrbution of values within given a categorical
@@ -58,5 +82,5 @@ from the distribution for the rest of the observations.
 }
 \details{
 The results are sorted in decending order of frequency for the named group
-i.e. the group named in \code{group_name}.
+i.e. the group named in \code{col_group}.
 }

@@ -14,7 +14,7 @@ data$cyl[1] <- NA
 
 test_that("cat_count rejects a data argument that is not a dataframe", {
 
-    msg <- "The data argument is not a dataframe."
+    msg <- "The \"data\" argument is not a dataframe."
     expect_error(cat_count(NULL, "cyl"), msg)
     expect_error(cat_count(NA, "cyl"), msg)
     expect_error(cat_count(1:10, "cyl"), msg)
@@ -25,18 +25,21 @@ test_that("cat_count rejects a data argument that is not a dataframe", {
 
 test_that("cat_count rejects a data argument that has no rows", {
 
-    msg <- "The data argument is empty."
+    msg <- "The \"data\" argument is empty."
     expect_error(cat_count(data.frame(), "cyl"), msg)
 })
 
-test_that("cat_count rejects a cat argument is NULL or NA", {
+test_that("cat_count rejects invalid cat arguments", {
 
-    msg <- "The cat argument is null."
+    msg <- "The \"cat\" argument is not a character vector of length one."
     expect_error(cat_count(data, NULL), msg)
     expect_error(cat_count(data, NA), msg)
+    expect_error(cat_count(data, 1:10), msg)
+    expect_error(cat_count(data, c(TRUE, FALSE)), msg)
+    expect_error(cat_count(data, list()), msg)
 })
 
-test_that("cat_count rejects a cat argument is not a column in the data", {
+test_that("cat_count rejects a cat argument that is not a column in the data", {
 
     msg <- "'notacolumn' is not a column in the dataframe."
     expect_error(cat_count(data, "notacolumn"), msg)
@@ -47,10 +50,12 @@ test_that("cat_count rejects invalid na.rm arguments", {
     msg <- "Invalid \"na.rm\" argument. Must be either TRUE or FALSE."
     expect_error(cat_count(data, "cyl", na.rm = NULL), msg)
     expect_error(cat_count(data, "cyl", na.rm = NA), msg)
-    expect_error(cat_count(data, "cyl", na.rm = list()), msg)
-    expect_error(cat_count(data, "cyl", na.rm = data.frame()), msg)
     expect_error(cat_count(data, "cyl", na.rm = 1), msg)
     expect_error(cat_count(data, "cyl", na.rm = ""), msg)
+    expect_error(cat_count(data, "cyl", na.rm = LETTERS[1:10]), msg)
+    expect_error(cat_count(data, "cyl", na.rm = 1:10), msg)
+    expect_error(cat_count(data, "cyl", na.rm = c(TRUE, FALSE)), msg)
+    expect_error(cat_count(data, "cyl", na.rm = list()), msg)
 })
 
 test_that("cat_count rejects invalid clean_names arguments", {
@@ -58,22 +63,25 @@ test_that("cat_count rejects invalid clean_names arguments", {
     msg <- "Invalid \"clean_names\" argument. Must be either TRUE or FALSE."
     expect_error(cat_count(data, "cyl", clean_names = NULL), msg)
     expect_error(cat_count(data, "cyl", clean_names = NA), msg)
-    expect_error(cat_count(data, "cyl", clean_names = list()), msg)
-    expect_error(cat_count(data, "cyl", clean_names = data.frame()), msg)
     expect_error(cat_count(data, "cyl", clean_names = 1), msg)
     expect_error(cat_count(data, "cyl", clean_names = ""), msg)
+    expect_error(cat_count(data, "cyl", clean_names = LETTERS[1:10]), msg)
+    expect_error(cat_count(data, "cyl", clean_names = 1:10), msg)
+    expect_error(cat_count(data, "cyl", clean_names = c(TRUE, FALSE)), msg)
+    expect_error(cat_count(data, "cyl", clean_names = list()), msg)
 })
 
 test_that("cat_count rejects invalid only arguments", {
 
-    msg <- "Invalid \"only\" argument. Must be a single string."
+    msg <- "Invalid \"only\" argument. Must be a character vector of length one."
     expect_error(cat_count(data, "cyl", only = NULL), msg)
     expect_error(cat_count(data, "cyl", only = NA), msg)
-    expect_error(cat_count(data, "cyl", only = list()), msg)
-    expect_error(cat_count(data, "cyl", only = data.frame()), msg)
     expect_error(cat_count(data, "cyl", only = 1), msg)
     expect_error(cat_count(data, "cyl", only = TRUE), msg)
-    expect_error(cat_count(data, "cyl", only = c("n", "p")), msg)
+    expect_error(cat_count(data, "cyl", only = LETTERS[1:10]), msg)
+    expect_error(cat_count(data, "cyl", only = 1:10), msg)
+    expect_error(cat_count(data, "cyl", only = c(TRUE, FALSE)), msg)
+    expect_error(cat_count(data, "cyl", only = list()), msg)
 })
 
 test_that("cat_count returns correct data with defaults", {

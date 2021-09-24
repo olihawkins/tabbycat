@@ -8,25 +8,38 @@ tibble}
 \usage{
 cat_compare(
   data,
-  dist_cat,
-  group_cat,
-  na.rm = FALSE,
+  row_cat,
+  col_cat,
+  na.rm.row = FALSE,
+  na.rm.col = FALSE,
+  na.rm = NULL,
   clean_names = TRUE,
-  only = ""
+  only = "",
+  na_label = "na"
 )
 }
 \arguments{
 \item{data}{A dataframe containing the two variables of interest.}
 
-\item{dist_cat}{The column name of a categorical variable whose distribution
-will be calculated for each group in \code{group_cat}.}
+\item{row_cat}{The column name of a categorical variable whose distribution
+will be calculated for each group in \code{col_cat}.}
 
-\item{group_cat}{The column name of a categorical variable which will be
-split into groups and the distrubtion of \code{dist_cat} calulated
+\item{col_cat}{The column name of a categorical variable which will be
+split into groups and the distrubtion of \code{row_cat} calulated
 for each group.}
 
-\item{na.rm}{A boolean indicating whether to exclude NAs from the results.
-The default is FALSE.}
+\item{na.rm.row}{A boolean indicating whether to exclude NAs from the row
+results. The default is FALSE.}
+
+\item{na.rm.col}{A boolean indicating whether to exclude NAs from the column
+results. The default is FALSE.}
+
+\item{na.rm}{A boolean indicating whether to exclude NAs from both row and
+column results. This argument is provided as a convenience. It allows you
+to set \code{na.rm.row} and \code{na.rm.col} to the same value without
+having to specify them separately. If the value of \code{na.rm} is NULL,
+the argument is ignored. If it is not NULL it takes precendence.
+default is NULL.}
 
 \item{clean_names}{A boolean indicating whether the column names of the
 results tibble should be cleaned, so that any column names produced from
@@ -38,10 +51,15 @@ should be returned in the results. If \code{only} is either "n" or
 "p" or "percent", only the percent columns are returned. If \code{only} is
 any other value, both sets of columns are shown. The default value is an
 empty string, which means both sets of columns are shown.}
+
+\item{na_label}{A string indicating the label to use for the columns that
+contain data for missing values. The default value is "na", but use this
+argument to set a different value if the default  value collides with data
+in your dataset.}
 }
 \value{
-A tibble showing the distribution of \code{dist_cat} within each of
-  the two exclusive groups in \code{group_cat}.
+A tibble showing the distribution of \code{row_cat} within each of
+  the two exclusive groups in \code{col_cat}.
 }
 \description{
 This function crosstabulates the frequencies of one categorical variable
@@ -49,7 +67,7 @@ within the groups of another.
 }
 \details{
 The results are sorted on the values of the variable whose distribution is
-shown in each column i.e. the variable specified with \code{dist_cat}. If
+shown in each column i.e. the variable specified with \code{row_cat}. If
 this variable is a character vector it will be sorted alphabetically, and if
 it is a factor it will be sorted in the order of its levels.
 }

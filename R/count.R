@@ -33,17 +33,17 @@ cat_count <- function(
 
     # Check the data argument is not null and is a dataframe
     if (is.null(data) || ! is.data.frame(data)) {
-        stop("The data argument is not a dataframe.")
+        stop("The \"data\" argument is not a dataframe.")
     }
 
     # Check that data has rows
     if (nrow(data) == 0) {
-        stop("The data argument is empty.")
+        stop("The \"data\" argument is empty.")
     }
 
-    # Check the cat argument is not null
-    if (is.null(cat) || is.na(cat)) {
-        stop("The cat argument is null.")
+    # Check the cat argument is a character vector of length one
+    if (! is.character(cat) || length(cat) != 1) {
+        stop("The \"cat\" argument is not a character vector of length one.")
     }
 
     # Check the cat argument is a column in data
@@ -52,18 +52,18 @@ cat_count <- function(
     }
 
     # Check the na.rm argument is valid
-    if (is.na(na.rm) || ! is.logical(na.rm)) {
+    if (length(na.rm) != 1 || is.na(na.rm) || ! is.logical(na.rm)) {
         stop("Invalid \"na.rm\" argument. Must be either TRUE or FALSE.")
     }
 
     # Check the clean_names argument is valid
-    if (is.na(clean_names) || ! is.logical(clean_names)) {
+    if (length(clean_names) != 1 || is.na(clean_names) || ! is.logical(clean_names)) {
         stop("Invalid \"clean_names\" argument. Must be either TRUE or FALSE.")
     }
 
     # Check the only argument is valid
     if (length(only) != 1 || is.na(only) || ! is.character(only)) {
-        stop("Invalid \"only\" argument. Must be a single string.")
+        stop("Invalid \"only\" argument. Must be a character vector of length one.")
     }
 
     # Remove rows with NAs if na.rm is TRUE
