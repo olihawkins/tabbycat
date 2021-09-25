@@ -9,14 +9,6 @@ data <- mtcars %>%
         manufacturer = stringr::str_split(model, " ", simplify = TRUE)[, 1])
 
 data$cyl[1] <- NA
-data$cyl[4] <- NA
-
-data$mpg[1] <- NA
-data$mpg[2] <- NA
-data$mpg[3] <- NA
-
-#data$vs[1] <- NA
-#data$vs[3] <- NA
 
 # Tests: cat_vcount -----------------------------------------------------------
 
@@ -103,66 +95,118 @@ test_that("cat_summarise rejects invalid clean_names arguments", {
     expect_error(cat_summarise(data, "cyl", "mpg", clean_names = list()), msg)
 })
 
-# test_that("cat_summarise returns correct data with defaults", {
-#
-#     expected <- tibble::tibble(
-#         cyl = c(4, 6, 8, NA),
-#         n = c(11, 6, 14, 1),
-#         mean = c(26.663636, 19.5333333, 15.10000, 21.00000),
-#         sd = c(4.50982765, 1.47196014, 2.56004808, NA),
-#         min = c(21.4, 17.8, 10.4, 21.0),
-#         lq = c(22.800, 18.375, 14.400, 21.000),
-#         med = c(26.00, 19.45, 15.20, 21.00),
-#         uq = c(30.400, 20.675, 16.250, 21.000),
-#         max = c(33.9, 21.4, 19.2, 21.0))
-#     observed <- cat_summarise(data, "cyl", "mpg")
-#     expect_equal(observed, expected)
-# })
+test_that("cat_summarise returns correct data with defaults", {
 
-# test_that("cat_summarise returns correct data with a valid na.rm argument", {
-#
-#     expected <- tibble::tibble(
-#         cyl = c(4, 6, 8, NA),
-#         n = c(11, 6, 14, 1),
-#         mean = c(26.663636, 19.5333333, 15.10000, 21.00000),
-#         sd = c(4.50982765, 1.47196014, 2.56004808, NA),
-#         min = c(21.4, 17.8, 10.4, 21.0),
-#         lq = c(22.800, 18.375, 14.400, 21.000),
-#         med = c(26.00, 19.45, 15.20, 21.00),
-#         uq = c(30.400, 20.675, 16.250, 21.000),
-#         max = c(33.9, 21.4, 19.2, 21.0))
-#     observed <- cat_summarise(data, "cyl", "mpg", na.rm = FALSE)
-#     expect_equal(observed, expected)
-#
-#     expected <- tibble::tibble(
-#         cyl = c(4, 6, 8),
-#         n = c(11, 6, 14),
-#         mean = c(26.663636, 19.5333333, 15.10000),
-#         sd = c(4.50982765, 1.47196014, 2.56004808),
-#         min = c(21.4, 17.8, 10.4),
-#         lq = c(22.800, 18.375, 14.400),
-#         med = c(26.00, 19.45, 15.20),
-#         uq = c(30.400, 20.675, 16.250),
-#         max = c(33.9, 21.4, 19.2))
-#     observed <- cat_summarise(data, "cyl", "mpg", na.rm = TRUE)
-#     expect_equal(observed, expected)
-# })
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n = c(11, 6, 14, 1),
+        na = c(0, 0, 0, 0),
+        mean = c(26.663636, 19.5333333, 15.10000, 21.00000),
+        sd = c(4.50982765, 1.47196014, 2.56004808, NA),
+        min = c(21.4, 17.8, 10.4, 21.0),
+        lq = c(22.800, 18.375, 14.400, 21.000),
+        med = c(26.00, 19.45, 15.20, 21.00),
+        uq = c(30.400, 20.675, 16.250, 21.000),
+        max = c(33.9, 21.4, 19.2, 21.0))
+    observed <- cat_summarise(data, "cyl", "mpg")
+    expect_equal(observed, expected)
 
-# test_that("cat_summarise returns correct data with a valid clean_names argument", {
-#
-#     data$Cyl <- data$cyl
-#
-#     expected <- tibble::tibble(
-#         cyl = c(8, 4, 6, NA),
-#         number = c(14, 11, 6, 1),
-#         percent = c(0.43750, 0.34375, 0.18750, 0.03125))
-#     observed <- cat_summarise(data, "cyl", "mpg", clean_names = TRUE)
-#     expect_equal(observed, expected)
-#
-#     expected <- tibble::tibble(
-#         Cyl = c(8, 4, 6, NA),
-#         number = c(14, 11, 6, 1),
-#         percent = c(0.43750, 0.34375, 0.18750, 0.03125))
-#     observed <- cat_summarise(data, "cyl", "mpg", clean_names = FALSE)
-#     expect_equal(observed, expected)
-# })
+    data_na_all_na <- data
+    data_na_all_na$mpg[1] <- NA
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n = c(11, 6, 14, 1),
+        na = c(0, 0, 0, 1),
+        mean = c(26.663636, 19.5333333, 15.10000, NA),
+        sd = c(4.50982765, 1.47196014, 2.56004808, NA),
+        min = c(21.4, 17.8, 10.4, NA),
+        lq = c(22.800, 18.375, 14.400, NA),
+        med = c(26.00, 19.45, 15.20, NA),
+        uq = c(30.400, 20.675, 16.250, NA),
+        max = c(33.9, 21.4, 19.2, NA))
+    observed <- cat_summarise(data_na_all_na, "cyl", "mpg")
+    expect_equal(observed, expected)
+
+    data_na_summary <- data
+    data_na_summary$cyl[3] <- NA
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n = c(10, 6, 14, 2),
+        na = c(0, 0, 0, 0),
+        mean = c(27.05000, 19.5333333, 15.10000, 21.90000),
+        sd = c(4.557838182, 1.4719601444, 2.5600480765, 1.272792061),
+        min = c(21.4, 17.8, 10.4, 21.0),
+        lq = c(23.200, 18.375, 14.400, 21.450),
+        med = c(26.65, 19.45, 15.20, 21.90),
+        uq = c(30.400, 20.675, 16.250, 22.350),
+        max = c(33.9, 21.4, 19.2, 22.8))
+    observed <- cat_summarise(data_na_summary, "cyl", "mpg")
+    expect_equal(observed, expected)
+
+})
+
+test_that("cat_summarise returns correct data with a valid na.rm argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n = c(11, 6, 14, 1),
+        na = c(0, 0, 0, 0),
+        mean = c(26.663636, 19.5333333, 15.10000, 21.00000),
+        sd = c(4.50982765, 1.47196014, 2.56004808, NA),
+        min = c(21.4, 17.8, 10.4, 21.0),
+        lq = c(22.800, 18.375, 14.400, 21.000),
+        med = c(26.00, 19.45, 15.20, 21.00),
+        uq = c(30.400, 20.675, 16.250, 21.000),
+        max = c(33.9, 21.4, 19.2, 21.0))
+    observed <- cat_summarise(data, "cyl", "mpg", na.rm = FALSE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8),
+        n = c(11, 6, 14),
+        na = c(0, 0, 0),
+        mean = c(26.663636, 19.5333333, 15.10000),
+        sd = c(4.50982765, 1.47196014, 2.56004808),
+        min = c(21.4, 17.8, 10.4),
+        lq = c(22.800, 18.375, 14.400),
+        med = c(26.00, 19.45, 15.20),
+        uq = c(30.400, 20.675, 16.250),
+        max = c(33.9, 21.4, 19.2))
+    observed <- cat_summarise(data, "cyl", "mpg", na.rm = TRUE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_summarise returns correct data with a valid clean_names argument", {
+
+    data$Cyl <- data$cyl
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n = c(11, 6, 14, 1),
+        na = c(0, 0, 0, 0),
+        mean = c(26.663636, 19.5333333, 15.10000, 21.00000),
+        sd = c(4.50982765, 1.47196014, 2.56004808, NA),
+        min = c(21.4, 17.8, 10.4, 21.0),
+        lq = c(22.800, 18.375, 14.400, 21.000),
+        med = c(26.00, 19.45, 15.20, 21.00),
+        uq = c(30.400, 20.675, 16.250, 21.000),
+        max = c(33.9, 21.4, 19.2, 21.0))
+    observed <- cat_summarise(data, "Cyl", "mpg", clean_names = TRUE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        Cyl = c(4, 6, 8, NA),
+        n = c(11, 6, 14, 1),
+        na = c(0, 0, 0, 0),
+        mean = c(26.663636, 19.5333333, 15.10000, 21.00000),
+        sd = c(4.50982765, 1.47196014, 2.56004808, NA),
+        min = c(21.4, 17.8, 10.4, 21.0),
+        lq = c(22.800, 18.375, 14.400, 21.000),
+        med = c(26.00, 19.45, 15.20, 21.00),
+        uq = c(30.400, 20.675, 16.250, 21.000),
+        max = c(33.9, 21.4, 19.2, 21.0))
+    observed <- cat_summarise(data, "Cyl", "mpg", clean_names = FALSE)
+    expect_equal(observed, expected)
+})

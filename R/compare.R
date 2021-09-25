@@ -117,7 +117,7 @@ cat_compare <- function(
         data <- data %>% dplyr::filter(! is.na(.data[[row_cat]]))
     }
 
-    group_names <- unique(data[[col_cat]])
+    group_names <- sort(unique(data[[col_cat]]))
 
     comparison_data <- purrr::map_dfr(group_names, function(group_name) {
 

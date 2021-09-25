@@ -9,6 +9,7 @@ data <- mtcars %>%
         manufacturer = stringr::str_split(model, " ", simplify = TRUE)[, 1])
 
 data$cyl[1] <- NA
+data$vs[2] <- NA
 
 # Tests: cat_compare --------------------------------------------------------
 
@@ -116,145 +117,158 @@ test_that("cat_compare rejects invalid only arguments", {
     expect_error(cat_compare(data, "cyl", "vs", only = list()), msg)
 })
 
-# test_that("cat_compare returns correct data with defaults", {
-#
-#     expected <- tibble::tibble(
-#         cyl = c(4, 6, 8, NA),
-#         n_0 = c(1, 2, 14, 1),
-#         n_1 = c(10, 4, 0, 0),
-#         p_0 = c(0.05555556, 0.11111111, 0.77777778, 0.05555556),
-#         p_1 = c(.71428571, 0.28571429, 0.0, 0.0))
-#     observed <- cat_compare(
-#         data,
-#         "cyl",
-#         "vs")
-#     expect_equal(observed, expected)
-# })
-#
-# test_that("cat_compare returns correct data with a valid na.rm argument", {
-#
-#     expected <- tibble::tibble(
-#         cyl = c(4, 6, 8, NA),
-#         n_0 = c(1, 2, 14, 1),
-#         n_1 = c(10, 4, 0, 0),
-#         p_0 = c(0.05555556, 0.11111111, 0.77777778, 0.05555556),
-#         p_1 = c(0.71428571, 0.28571429, 0.0, 0.0))
-#     observed <- cat_compare(
-#         data,
-#         "cyl",
-#         "vs",
-#         na.rm = FALSE)
-#     expect_equal(observed, expected)
-#
-#     expected <- tibble::tibble(
-#         cyl = c(4, 6, 8),
-#         n_0 = c(1, 2, 14),
-#         n_1 = c(10, 4, 0),
-#         p_0 = c(0.05882353, 0.11764706, 0.82352941),
-#         p_1 = c(0.71428571, 0.28571429, 0.0000000))
-#     observed <- cat_compare(
-#         data,
-#         "cyl",
-#         "vs",
-#         na.rm = TRUE)
-#     expect_equal(observed, expected)
-# })
-#
-# test_that("cat_compare returns correct data with a valid clean_names argument", {
-#
-#     data$Cyl <- data$cyl
-#
-#     expected <- tibble::tibble(
-#         cyl = c(4, 6, 8, NA),
-#         n_0 = c(1, 2, 14, 1),
-#         n_1 = c(10, 4, 0, 0),
-#         p_0 = c(0.05555556, 0.11111111, 0.77777778, 0.05555556),
-#         p_1 = c(0.71428571, 0.28571429, 0.0, 0.0))
-#     observed <- cat_compare(
-#         data,
-#         "Cyl",
-#         "vs",
-#         clean_names = TRUE)
-#     expect_equal(observed, expected)
-#
-#     expected <- tibble::tibble(
-#         Cyl = c(4, 6, 8, NA),
-#         n_0 = c(1, 2, 14, 1),
-#         n_1 = c(10, 4, 0, 0),
-#         p_0 = c(0.05555556, 0.11111111, 0.77777778, 0.05555556),
-#         p_1 = c(0.71428571, 0.28571429, 0.0, 0.0))
-#     observed <- cat_compare(
-#         data,
-#         "Cyl",
-#         "vs",
-#         clean_names = FALSE)
-#     expect_equal(observed, expected)
-# })
-#
-# test_that("cat_compare returns correct data with a valid only argument", {
-#
-#     expected <- tibble::tibble(
-#         cyl = c(4, 6, 8, NA),
-#         n_0 = c(1, 2, 14, 1),
-#         n_1 = c(10, 4, 0, 0),
-#         p_0 = c(0.05555556, 0.11111111, 0.77777778, 0.05555556),
-#         p_1 = c(.71428571, 0.28571429, 0.0, 0.0))
-#     observed <- cat_compare(
-#         data,
-#         "cyl",
-#         "vs",
-#         only = "ignore")
-#     expect_equal(observed, expected)
-#
-#     expected_number <- tibble::tibble(
-#         cyl = c(4, 6, 8, NA),
-#         n_0 = c(1, 2, 14, 1),
-#         n_1 = c(10, 4, 0, 0))
-#
-#     observed <- cat_compare(
-#         data,
-#         "cyl",
-#         "vs",
-#         only = "n")
-#     expect_equal(observed, expected_number)
-#
-#     observed <- cat_compare(
-#         data,
-#         "cyl",
-#         "vs",
-#         only = "number")
-#     expect_equal(observed, expected_number)
-#
-#     observed <- cat_compare(
-#         data,
-#         "cyl",
-#         "vs",
-#         only = " number ")
-#     expect_equal(observed, expected_number)
-#
-#     expected_percent <- tibble::tibble(
-#         cyl = c(4, 6, 8, NA),
-#         p_0 = c(0.05555556, 0.11111111, 0.77777778, 0.05555556),
-#         p_1 = c(.71428571, 0.28571429, 0.0, 0.0))
-#
-#     observed <- cat_compare(
-#         data,
-#         "cyl",
-#         "vs",
-#         only = "p")
-#     expect_equal(observed, expected_percent)
-#
-#     observed <- cat_compare(
-#         data,
-#         "cyl",
-#         "vs",
-#         only = "percent")
-#     expect_equal(observed, expected_percent)
-#
-#     observed <- cat_compare(
-#         data,
-#         "cyl",
-#         "vs",
-#         only = " percent ")
-#     expect_equal(observed, expected_percent)
-# })
+test_that("cat_compare returns correct data with defaults", {
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "cyl", "vs")
+    expect_equal(observed, expected)
+})
+
+test_that("cat_compare returns correct data with a valid na.rm.row argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "cyl", "vs", na.rm.row = FALSE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8),
+        n_0 = c(1, 1, 14),
+        n_1 = c(10, 4, 0),
+        n_na = c(0, 1, 0),
+        p_0 = c(0.0625, 0.0625, 0.8750),
+        p_1 = c(.71428571, 0.28571429, 0.0),
+        p_na = c(0, 1, 0))
+    observed <- cat_compare(data, "cyl", "vs", na.rm.row = TRUE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_compare returns correct data with a valid na.rm.col argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "cyl", "vs", na.rm.col = FALSE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0))
+    observed <- cat_compare(data, "cyl", "vs", na.rm.col = TRUE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_compare returns correct data with a valid na.rm argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "cyl", "vs", na.rm = FALSE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8),
+        n_0 = c(1, 1, 14),
+        n_1 = c(10, 4, 0),
+        p_0 = c(0.0625, 0.0625, 0.8750),
+        p_1 = c(.71428571, 0.28571429, 0.0))
+    observed <- cat_compare(data, "cyl", "vs", na.rm = TRUE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_compare returns correct data with a valid clean_names argument", {
+
+    data$Cyl <- data$cyl
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "Cyl", "vs", clean_names = TRUE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        Cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "Cyl", "vs", clean_names = FALSE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_compare returns correct data with a valid only argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "cyl", "vs", only = "ignore")
+    expect_equal(observed, expected)
+
+    expected_number <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0))
+
+    observed <- cat_compare(data, "cyl", "vs", only = "n")
+    expect_equal(observed, expected_number)
+
+    observed <- cat_compare(data, "cyl", "vs", only = "number")
+    expect_equal(observed, expected_number)
+
+    observed <- cat_compare(data, "cyl", "vs", only = " number ")
+    expect_equal(observed, expected_number)
+
+    expected_percent <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+
+    observed <- cat_compare(data, "cyl", "vs", only = "p")
+    expect_equal(observed, expected_percent)
+
+    observed <- cat_compare(data, "cyl", "vs", only = "percent")
+    expect_equal(observed, expected_percent)
+
+    observed <- cat_compare(data, "cyl", "vs", only = " percent ")
+    expect_equal(observed, expected_percent)
+})

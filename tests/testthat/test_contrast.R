@@ -9,6 +9,7 @@ data <- mtcars %>%
         manufacturer = stringr::str_split(model, " ", simplify = TRUE)[, 1])
 
 data$cyl[1] <- NA
+data$manufacturer[2] <- NA
 
 # Tests: cat_contrast --------------------------------------------------------
 
@@ -133,157 +134,233 @@ test_that("cat_contrast rejects invalid only arguments", {
     expect_error(cat_contrast(data, "cyl", "manufacturer", "Merc", only = list()), msg)
 })
 
-# test_that("cat_contrast returns correct data with defaults", {
-#
-#     expected <- tibble::tibble(
-#         cyl = c(8, 4, 6, NA),
-#         n_merc = c(3, 2, 2, 0),
-#         n_other = c(11, 9, 4, 1),
-#         p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
-#         p_other = c(0.44, 0.36, 0.16, 0.04))
-#     observed <- cat_contrast(
-#         data,
-#         "cyl",
-#         "manufacturer",
-#         "Merc")
-#     expect_equal(observed, expected)
-# })
-#
-# test_that("cat_contrast returns correct data with a valid na.rm argument", {
-#
-#     expected <- tibble::tibble(
-#         cyl = c(8, 4, 6, NA),
-#         n_merc = c(3, 2, 2, 0),
-#         n_other = c(11, 9, 4, 1),
-#         p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
-#         p_other = c(0.44, 0.36, 0.16, 0.04))
-#     observed <- cat_contrast(
-#         data,
-#         "cyl",
-#         "manufacturer",
-#         "Merc",
-#         na.rm = FALSE)
-#     expect_equal(observed, expected)
-#
-#     expected <- tibble::tibble(
-#         cyl = c(8, 4, 6),
-#         n_merc = c(3, 2, 2),
-#         n_other = c(11, 9, 4),
-#         p_merc = c(0.42857143, 0.28571429, 0.28571429),
-#         p_other = c(0.45833333, 0.3750000, 0.166666667))
-#     observed <- cat_contrast(
-#         data,
-#         "cyl",
-#         "manufacturer",
-#         "Merc",
-#         na.rm = TRUE)
-#     expect_equal(observed, expected)
-# })
-#
-# test_that("cat_contrast returns correct data with a valid clean_names argument", {
-#
-#     data$Cyl <- data$cyl
-#
-#     expected <- tibble::tibble(
-#         cyl = c(8, 4, 6, NA),
-#         n_merc = c(3, 2, 2, 0),
-#         n_other = c(11, 9, 4, 1),
-#         p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
-#         p_other = c(0.44, 0.36, 0.16, 0.04))
-#     observed <- cat_contrast(
-#         data,
-#         "Cyl",
-#         "manufacturer",
-#         "Merc",
-#         clean_names = TRUE)
-#     expect_equal(observed, expected)
-#
-#     expected <- tibble::tibble(
-#         Cyl = c(8, 4, 6, NA),
-#         n_Merc = c(3, 2, 2, 0),
-#         n_other = c(11, 9, 4, 1),
-#         p_Merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
-#         p_other = c(0.44, 0.36, 0.16, 0.04))
-#     observed <- cat_contrast(
-#         data,
-#         "Cyl",
-#         "manufacturer",
-#         "Merc",
-#         clean_names = FALSE)
-#     expect_equal(observed, expected)
-# })
-#
-# test_that("cat_contrast returns correct data with a valid only argument", {
-#
-#     expected <- tibble::tibble(
-#         cyl = c(8, 4, 6, NA),
-#         n_merc = c(3, 2, 2, 0),
-#         n_other = c(11, 9, 4, 1),
-#         p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
-#         p_other = c(0.44, 0.36, 0.16, 0.04))
-#     observed <- cat_contrast(
-#         data,
-#         "cyl",
-#         "manufacturer",
-#         "Merc",
-#         only = "ignore")
-#     expect_equal(observed, expected)
-#
-#     expected_number <- tibble::tibble(
-#         cyl = c(8, 4, 6, NA),
-#         n_merc = c(3, 2, 2, 0),
-#         n_other = c(11, 9, 4, 1))
-#
-#     observed <- cat_contrast(
-#         data,
-#         "cyl",
-#         "manufacturer",
-#         "Merc",
-#         only = "n")
-#     expect_equal(observed, expected_number)
-#
-#     observed <- cat_contrast(
-#         data,
-#         "cyl",
-#         "manufacturer",
-#         "Merc",
-#         only = "number")
-#     expect_equal(observed, expected_number)
-#
-#     observed <- cat_contrast(
-#         data,
-#         "cyl",
-#         "manufacturer",
-#         "Merc",
-#         only = " number ")
-#     expect_equal(observed, expected_number)
-#
-#     expected_percent <- tibble::tibble(
-#         cyl = c(8, 4, 6, NA),
-#         p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
-#         p_other = c(0.44, 0.36, 0.16, 0.04))
-#
-#     observed <- cat_contrast(
-#         data,
-#         "cyl",
-#         "manufacturer",
-#         "Merc",
-#         only = "p")
-#     expect_equal(observed, expected_percent)
-#
-#     observed <- cat_contrast(
-#         data,
-#         "cyl",
-#         "manufacturer",
-#         "Merc",
-#         only = "percent")
-#     expect_equal(observed, expected_percent)
-#
-#     observed <- cat_contrast(
-#         data,
-#         "cyl",
-#         "manufacturer",
-#         "Merc",
-#         only = " percent ")
-#     expect_equal(observed, expected_percent)
-# })
+test_that("cat_contrast returns correct data with defaults", {
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(data, "cyl", "manufacturer", "Merc")
+    expect_equal(observed, expected)
+})
+
+test_that("cat_contrast returns correct data with a valid na.rm.row argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        na.rm.row = FALSE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6),
+        n_merc = c(3, 2, 2),
+        n_other = c(11, 9, 3),
+        n_na = c(0, 0, 1),
+        p_merc = c( 0.42857143, 0.28571429, 0.28571429),
+        p_other = c(0.47826087, 0.39130435, 0.13043478),
+        p_na = c(0, 0, 1))
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        na.rm.row = TRUE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_contrast returns correct data with a valid na.rm.col argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        na.rm.col = FALSE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667))
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        na.rm.col = TRUE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_contrast returns correct data with a valid na.rmå argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        na.rm = FALSE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6),
+        n_merc = c(3, 2, 2),
+        n_other = c(11, 9, 3),
+        p_merc = c( 0.42857143, 0.28571429, 0.28571429),
+        p_other = c(0.47826087, 0.39130435, 0.13043478))
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        na.rm = TRUE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_contrast returns correct data with a valid clean_names argument", {
+
+    data$Cyl <- data$cyl
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "Cyl",
+        "manufacturer",
+        "Merc",
+        clean_names = TRUE)
+    expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        Cyl = c(8, 4, 6, NA),
+        n_Merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_Merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "Cyl",
+        "manufacturer",
+        "Merc",
+        clean_names = FALSE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_contrast returns correct data with a valid only argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        only = "ignore")
+    expect_equal(observed, expected)
+
+    expected_number <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0))
+
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        only = "n")
+    expect_equal(observed, expected_number)
+
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        only = "number")
+    expect_equal(observed, expected_number)
+
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        only = " number ")
+    expect_equal(observed, expected_number)
+
+    expected_percent <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        only = "p")
+    expect_equal(observed, expected_percent)
+
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        only = "percent")
+    expect_equal(observed, expected_percent)
+
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        only = " percent ")
+    expect_equal(observed, expected_percent)
+})
