@@ -16,8 +16,13 @@ of discrete values for which frequencies will be calculated.}
 \item{num}{The name of a column in \code{data} which is a numerical vector
 that will be summarised for each group.}
 
-\item{na.rm}{A boolean indicating whether to exclude NAs from the results.
-The default is FALSE.}
+\item{na.rm}{A boolean indicating whether to exclude NAs from the row
+results. Note that NAs are **always** ignored in calculating the summary
+statistics for \code{num} shown in each row, and the number of NAs that
+exist in \code{num} for each group in \code{cat} is shown in the
+\code{na} column of the results table. This argument controls whether a
+row of summary statistics is shown for observations that are NA in
+\code{cat}. The default is FALSE.}
 
 \item{clean_names}{A boolean indicating whether the column names of the
 results tibble should be cleaned, so that any column names produced from
@@ -26,6 +31,6 @@ data are converted to snake_case. The default is TRUE.}
 \description{
 The results are sorted on the values of the categorical variable i.e.
 the variable specified with \code{cat}. If this variable is a character
-vector it will be sorted alphabetically, and if it is a factor it will be
+vector it will be sorted alphabetically. If it is a factor it will be
 sorted in the order of its levels.
 }

@@ -97,9 +97,9 @@ cat_contrast <- function(
             "' is not a column in the dataframe."))
     }
 
-    # Check the col_group argument is a character vector of length one
-    if (! is.character(col_group) || length(col_group) != 1) {
-        stop("The \"col_group\" argument is not a character vector of length one.")
+    # Check the col_group argument is a valid vector of length one
+    if (length(col_group) != 1 || is.na(col_group) || ! is.atomic(col_group)) {
+        stop("The \"col_group\" argument is not a valid vector of length one.")
     }
 
     # Check that col_group exits in col_cat

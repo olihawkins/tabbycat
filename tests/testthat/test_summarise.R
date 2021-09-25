@@ -9,9 +9,14 @@ data <- mtcars %>%
         manufacturer = stringr::str_split(model, " ", simplify = TRUE)[, 1])
 
 data$cyl[1] <- NA
+data$cyl[4] <- NA
+
+data$mpg[1] <- NA
 data$mpg[2] <- NA
-data$vs[1] <- NA
-data$vs[3] <- NA
+data$mpg[3] <- NA
+
+#data$vs[1] <- NA
+#data$vs[3] <- NA
 
 # Tests: cat_vcount -----------------------------------------------------------
 
@@ -38,6 +43,7 @@ test_that("cat_summarise rejects invalid cat arguments", {
     expect_error(cat_summarise(data, NULL, "mpg"), msg)
     expect_error(cat_summarise(data, NA, "mpg"), msg)
     expect_error(cat_summarise(data, 1:10, "mpg"), msg)
+    expect_error(cat_summarise(data, LETTERS[1:10], "mpg"), msg)
     expect_error(cat_summarise(data, c(TRUE, FALSE), "mpg"), msg)
     expect_error(cat_summarise(data, list(), "mpg"), msg)
 })
@@ -54,6 +60,7 @@ test_that("cat_summarise rejects invalid num arguments", {
     expect_error(cat_summarise(data, "cyl", NULL), msg)
     expect_error(cat_summarise(data, "cyl", NA), msg)
     expect_error(cat_summarise(data, "cyl", 1:10), msg)
+    expect_error(cat_summarise(data, "cyl", LETTERS[1:10]), msg)
     expect_error(cat_summarise(data, "cyl", c(TRUE, FALSE)), msg)
     expect_error(cat_summarise(data, "cyl", list()), msg)
 })
@@ -77,8 +84,8 @@ test_that("cat_summarise rejects invalid na.rm arguments", {
     expect_error(cat_summarise(data, "cyl", "mpg", na.rm = NA), msg)
     expect_error(cat_summarise(data, "cyl", "mpg", na.rm = 1), msg)
     expect_error(cat_summarise(data, "cyl", "mpg", na.rm = ""), msg)
-    expect_error(cat_summarise(data, "cyl", "mpg", na.rm = LETTERS[1:10]), msg)
     expect_error(cat_summarise(data, "cyl", "mpg", na.rm = 1:10), msg)
+    expect_error(cat_summarise(data, "cyl", "mpg", na.rm = LETTERS[1:10]), msg)
     expect_error(cat_summarise(data, "cyl", "mpg", na.rm = c(TRUE, FALSE)), msg)
     expect_error(cat_summarise(data, "cyl", "mpg", na.rm = list()), msg)
 })
@@ -90,8 +97,8 @@ test_that("cat_summarise rejects invalid clean_names arguments", {
     expect_error(cat_summarise(data, "cyl", "mpg", clean_names = NA), msg)
     expect_error(cat_summarise(data, "cyl", "mpg", clean_names = 1), msg)
     expect_error(cat_summarise(data, "cyl", "mpg", clean_names = ""), msg)
-    expect_error(cat_summarise(data, "cyl", "mpg", clean_names = LETTERS[1:10]), msg)
     expect_error(cat_summarise(data, "cyl", "mpg", clean_names = 1:10), msg)
+    expect_error(cat_summarise(data, "cyl", "mpg", clean_names = LETTERS[1:10]), msg)
     expect_error(cat_summarise(data, "cyl", "mpg", clean_names = c(TRUE, FALSE)), msg)
     expect_error(cat_summarise(data, "cyl", "mpg", clean_names = list()), msg)
 })

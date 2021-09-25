@@ -68,6 +68,6 @@ within the groups of another.
 \details{
 The results are sorted on the values of the variable whose distribution is
 shown in each column i.e. the variable specified with \code{row_cat}. If
-this variable is a character vector it will be sorted alphabetically, and if
+this variable is a character vector it will be sorted alphabetically. If
 it is a factor it will be sorted in the order of its levels.
 }
