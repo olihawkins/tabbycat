@@ -20,7 +20,8 @@
 #'   \code{cat}. The default is FALSE.
 #' @param clean_names A boolean indicating whether the column names of the
 #'   results tibble should be cleaned, so that any column names produced from
-#'   data are converted to snake_case. The default is TRUE.
+#'   data are converted to snake_case. The default is TRUE, but this can be
+#'   changed with \code{options(tabbycat.clean_names = FALSE)}.
 #' @export
 
 cat_summarise <- function(
@@ -28,7 +29,7 @@ cat_summarise <- function(
     cat,
     num,
     na.rm = FALSE,
-    clean_names = TRUE) {
+    clean_names = getOption("tabbycat.clean_names")) {
 
     # Check the data argument is not null and is a dataframe
     if (is.null(data) || ! is.data.frame(data)) {
@@ -42,7 +43,7 @@ cat_summarise <- function(
 
     # Check the cat argument is a character vector of length one
     if (! is.character(cat) || length(cat) != 1) {
-        stop("The \"cat\" argument is not a character vector of length one.")
+        stop("Invalid \"cat\" argument. Must be a character vector of length one.")
     }
 
     # Check the cat argument is a column in data
@@ -52,7 +53,7 @@ cat_summarise <- function(
 
     # Check the num argument is a character vector of length one
     if (! is.character(num) || length(num) != 1) {
-        stop("The \"num\" argument is not a character vector of length one.")
+        stop("Invalid \"num\" argument. Must be a character vector of length one.")
     }
 
     # Check the num argument is a column in data

@@ -31,7 +31,7 @@ test_that("cat_count rejects a data argument that has no rows", {
 
 test_that("cat_count rejects invalid cat arguments", {
 
-    msg <- "The \"cat\" argument is not a character vector of length one."
+    msg <- "Invalid \"cat\" argument. Must be a character vector of length one."
     expect_error(cat_count(data, NULL), msg)
     expect_error(cat_count(data, NA), msg)
     expect_error(cat_count(data, 1:10), msg)
@@ -129,6 +129,30 @@ test_that("cat_count returns correct data with a valid clean_names argument", {
         percent = c(0.43750, 0.34375, 0.18750, 0.03125))
     observed <- cat_count(data, "Cyl", clean_names = FALSE)
     expect_equal(observed, expected)
+})
+
+test_that("cat_count uses option for default clean_names argument", {
+
+    data$Cyl <- data$cyl
+    restore_option <- getOption("tabbycat.clean_names")
+
+    options(tabbycat.clean_names = TRUE)
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        number = c(14, 11, 6, 1),
+        percent = c(0.43750, 0.34375, 0.18750, 0.03125))
+    observed <- cat_count(data, "Cyl")
+    expect_equal(observed, expected)
+
+    options(tabbycat.clean_names = FALSE)
+    expected <- tibble::tibble(
+        Cyl = c(8, 4, 6, NA),
+        number = c(14, 11, 6, 1),
+        percent = c(0.43750, 0.34375, 0.18750, 0.03125))
+    observed <- cat_count(data, "Cyl")
+    expect_equal(observed, expected)
+
+    options(tabbycat.clean_names = restore_option)
 })
 
 test_that("cat_count returns correct data with a valid only argument", {

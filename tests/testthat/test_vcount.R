@@ -48,7 +48,7 @@ test_that("cat_vcount rejects invalid clean_names arguments", {
 
 test_that("cat_vcount rejects invalid only arguments", {
 
-    msg <- "Invalid \"only\" argument. Must be a single string."
+    msg <- "Invalid \"only\" argument. Must be a character vector of length one."
     expect_error(cat_vcount(cat, only = NULL), msg)
     expect_error(cat_vcount(cat, only = NA), msg)
     expect_error(cat_vcount(cat, only = 1), msg)
@@ -116,6 +116,30 @@ test_that("cat_count returns correct data with a valid clean_names argument", {
         percent = number / sum(number))
     observed <- cat_vcount(Cat, clean_names = FALSE)
     expect_equal(observed, expected)
+})
+
+test_that("cat_vcount uses option for default clean_names argument", {
+
+    Cat <- cat
+    restore_option <- getOption("tabbycat.clean_names")
+
+    options(tabbycat.clean_names = TRUE)
+    expected <- tibble::tibble(
+        cat = letters[4:1],
+        number = 4:1,
+        percent = number / sum(number))
+    observed <- cat_vcount(Cat)
+    expect_equal(observed, expected)
+
+    options(tabbycat.clean_names = FALSE)
+    expected <- tibble::tibble(
+        Cat = letters[4:1],
+        number = 4:1,
+        percent = number / sum(number))
+    observed <- cat_vcount(Cat)
+    expect_equal(observed, expected)
+
+    options(tabbycat.clean_names = restore_option)
 })
 
 test_that("cat_vcount returns expected data with a valid only argument", {

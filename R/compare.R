@@ -28,7 +28,8 @@
 #'   default is NULL.
 #' @param clean_names A boolean indicating whether the column names of the
 #'   results tibble should be cleaned, so that any column names produced from
-#'   data are converted to snake_case. The default is TRUE.
+#'   data are converted to snake_case. The default is TRUE, but this can be
+#'   changed with \code{options(tabbycat.clean_names = FALSE)}.
 #' @param only A string indicating that only one set of frequency columns
 #'   should be returned in the results. If \code{only} is either "n" or
 #'   "number", only the number columns are returned. If \code{only} is either
@@ -37,7 +38,7 @@
 #'   empty string, which means both sets of columns are shown.
 #' @param na_label A string indicating the label to use for the columns that
 #'   contain data for missing values. The default value is "na", but use this
-#'   argument to set a different value if the default  value collides with data
+#'   argument to set a different value if the default value collides with data
 #'   in your dataset.
 #' @return A tibble showing the distribution of \code{row_cat} within each of
 #'   the two exclusive groups in \code{col_cat}.
@@ -50,7 +51,7 @@ cat_compare <- function(
     na.rm.row = FALSE,
     na.rm.col = FALSE,
     na.rm = NULL,
-    clean_names = TRUE,
+    clean_names = getOption("tabbycat.clean_names"),
     only = "",
     na_label = "na") {
 
@@ -66,7 +67,7 @@ cat_compare <- function(
 
     # Check the row_cat argument is a character vector of length one
     if (! is.character(row_cat) || length(row_cat) != 1) {
-        stop("The \"row_cat\" argument is not a character vector of length one.")
+        stop("Invalid \"row_cat\" argument. Must be a character vector of length one.")
     }
 
     # Check the row_cat argument is a column in data
@@ -77,7 +78,7 @@ cat_compare <- function(
 
     # Check the col_cat argument is a character vector of length one
     if (! is.character(col_cat) || length(col_cat) != 1) {
-        stop("The \"col_cat\" argument is not a character vector of length one.")
+        stop("Invalid \"col_cat\" argument. Must be a character vector of length one.")
     }
 
     # Check the col_cat argument is a column in data
@@ -96,6 +97,13 @@ cat_compare <- function(
         stop("Invalid \"na.rm.col\" argument. Must be either TRUE or FALSE.")
     }
 
+    # Check the na.rm argument is valid
+    if (length(na.rm) > 1 ||
+            (! is.null(na.rm) && ! is.logical(na.rm)) ||
+            (! is.null(na.rm) && is.na(na.rm))) {
+        stop("Invalid \"na.rm\" argument. Must be either NULL, TRUE or FALSE.")
+    }
+
     # Check the clean_names argument is valid
     if (length(clean_names) != 1 || is.na(clean_names) || ! is.logical(clean_names)) {
         stop("Invalid \"clean_names\" argument. Must be either TRUE or FALSE.")
@@ -103,7 +111,12 @@ cat_compare <- function(
 
     # Check the only argument is valid
     if (length(only) != 1 || is.na(only) || ! is.character(only)) {
-        stop("Invalid \"only\" argument. Must be a single string.")
+        stop("Invalid \"only\" argument. Must be a character vector of length one.")
+    }
+
+    # Check the na_label argument is valid
+    if (length(na_label) != 1 || is.na(na_label) || ! is.character(na_label)) {
+        stop("Invalid \"na_label\" argument. Must be a character vector of length one.")
     }
 
     # Set both na.rm.row and na.rm.col to the value of na.rm if specified

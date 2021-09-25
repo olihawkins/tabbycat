@@ -14,7 +14,8 @@
 #'   The default is FALSE.
 #' @param clean_names A boolean indicating whether the column names of the
 #'   results tibble should be cleaned, so that any column names produced from
-#'   data are converted to snake_case. The default is TRUE.
+#'   data are converted to snake_case. The default is TRUE, but this can be
+#'   changed with \code{options(tabbycat.clean_names = FALSE)}.
 #' @param only A string indicating that only one of the frequency columns
 #'   should be returned in the results. If \code{only} is either "n" or
 #'   "number", only the number column is returned. If \code{only} is either
@@ -28,7 +29,7 @@ cat_count <- function(
     data,
     cat,
     na.rm = FALSE,
-    clean_names = TRUE,
+    clean_names = getOption("tabbycat.clean_names"),
     only = "") {
 
     # Check the data argument is not null and is a dataframe
@@ -43,7 +44,7 @@ cat_count <- function(
 
     # Check the cat argument is a character vector of length one
     if (! is.character(cat) || length(cat) != 1) {
-        stop("The \"cat\" argument is not a character vector of length one.")
+        stop("Invalid \"cat\" argument. Must be a character vector of length one.")
     }
 
     # Check the cat argument is a column in data

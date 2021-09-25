@@ -31,7 +31,7 @@ test_that("cat_summarise rejects a data argument that has no rows", {
 
 test_that("cat_summarise rejects invalid cat arguments", {
 
-    msg <- "The \"cat\" argument is not a character vector of length one."
+    msg <- "Invalid \"cat\" argument. Must be a character vector of length one."
     expect_error(cat_summarise(data, NULL, "mpg"), msg)
     expect_error(cat_summarise(data, NA, "mpg"), msg)
     expect_error(cat_summarise(data, 1:10, "mpg"), msg)
@@ -48,7 +48,7 @@ test_that("cat_summarise rejects a cat argument that is not a column in the data
 
 test_that("cat_summarise rejects invalid num arguments", {
 
-    msg <- "The \"num\" argument is not a character vector of length one."
+    msg <- "Invalid \"num\" argument. Must be a character vector of length one."
     expect_error(cat_summarise(data, "cyl", NULL), msg)
     expect_error(cat_summarise(data, "cyl", NA), msg)
     expect_error(cat_summarise(data, "cyl", 1:10), msg)
@@ -209,4 +209,42 @@ test_that("cat_summarise returns correct data with a valid clean_names argument"
         max = c(33.9, 21.4, 19.2, 21.0))
     observed <- cat_summarise(data, "Cyl", "mpg", clean_names = FALSE)
     expect_equal(observed, expected)
+})
+
+test_that("cat_summarise uses option for default clean_names argument", {
+
+    data$Cyl <- data$cyl
+    restore_option <- getOption("tabbycat.clean_names")
+
+    options(tabbycat.clean_names = FALSE)
+    expected <- tibble::tibble(
+        Cyl = c(4, 6, 8, NA),
+        n = c(11, 6, 14, 1),
+        na = c(0, 0, 0, 0),
+        mean = c(26.663636, 19.5333333, 15.10000, 21.00000),
+        sd = c(4.50982765, 1.47196014, 2.56004808, NA),
+        min = c(21.4, 17.8, 10.4, 21.0),
+        lq = c(22.800, 18.375, 14.400, 21.000),
+        med = c(26.00, 19.45, 15.20, 21.00),
+        uq = c(30.400, 20.675, 16.250, 21.000),
+        max = c(33.9, 21.4, 19.2, 21.0))
+    observed <- cat_summarise(data, "Cyl", "mpg")
+    expect_equal(observed, expected)
+
+    options(tabbycat.clean_names = TRUE)
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n = c(11, 6, 14, 1),
+        na = c(0, 0, 0, 0),
+        mean = c(26.663636, 19.5333333, 15.10000, 21.00000),
+        sd = c(4.50982765, 1.47196014, 2.56004808, NA),
+        min = c(21.4, 17.8, 10.4, 21.0),
+        lq = c(22.800, 18.375, 14.400, 21.000),
+        med = c(26.00, 19.45, 15.20, 21.00),
+        uq = c(30.400, 20.675, 16.250, 21.000),
+        max = c(33.9, 21.4, 19.2, 21.0))
+    observed <- cat_summarise(data, "Cyl", "mpg")
+    expect_equal(observed, expected)
+
+    options(tabbycat.clean_names = restore_option)
 })

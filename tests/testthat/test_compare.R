@@ -32,7 +32,7 @@ test_that("cat_compare rejects a data argument that has no rows", {
 
 test_that("cat_compare rejects invalid row_cat arguments", {
 
-    msg <- "The \"row_cat\" argument is not a character vector of length one."
+    msg <- "Invalid \"row_cat\" argument. Must be a character vector of length one."
     expect_error(cat_compare(data, NULL, "vs"), msg)
     expect_error(cat_compare(data, NA, "vs"), msg)
     expect_error(cat_compare(data, 1:10, "vs"), msg)
@@ -49,7 +49,7 @@ test_that("cat_compare rejects a row_cat argument that is not a column in the da
 
 test_that("cat_compare rejects invalid col_cat arguments", {
 
-    msg <- "The \"col_cat\" argument is not a character vector of length one."
+    msg <- "Invalid \"col_cat\" argument. Must be a character vector of length one."
     expect_error(cat_compare(data, "cyl", NULL), msg)
     expect_error(cat_compare(data, "cyl", NA), msg)
     expect_error(cat_compare(data, "cyl", 1:10), msg)
@@ -90,6 +90,18 @@ test_that("cat_compare rejects invalid na.rm.col arguments", {
     expect_error(cat_compare(data, "cyl", "vs", na.rm.col = list()), msg)
 })
 
+test_that("cat_compare rejects invalid na.rm arguments", {
+
+    msg <- "Invalid \"na.rm\" argument. Must be either NULL, TRUE or FALSE."
+    expect_error(cat_compare(data, "cyl", "vs", na.rm = NA), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na.rm = 1), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na.rm = ""), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na.rm = 1:10), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na.rm = LETTERS[1:10]), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na.rm = c(TRUE, FALSE)), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na.rm = list()), msg)
+})
+
 test_that("cat_compare rejects invalid clean_names arguments", {
 
     msg <- "Invalid \"clean_names\" argument. Must be either TRUE or FALSE."
@@ -105,8 +117,7 @@ test_that("cat_compare rejects invalid clean_names arguments", {
 
 test_that("cat_compare rejects invalid only arguments", {
 
-    msg <- "Invalid \"only\" argument. Must be a single string."
-    expect_error(cat_compare(data, "cyl", "vs", only = NULL), msg)
+    msg <- "Invalid \"only\" argument. Must be a character vector of length one."
     expect_error(cat_compare(data, "cyl", "vs", only = NULL), msg)
     expect_error(cat_compare(data, "cyl", "vs", only = NA), msg)
     expect_error(cat_compare(data, "cyl", "vs", only = 1), msg)
@@ -115,6 +126,19 @@ test_that("cat_compare rejects invalid only arguments", {
     expect_error(cat_compare(data, "cyl", "vs", only = LETTERS[1:10]), msg)
     expect_error(cat_compare(data, "cyl", "vs", only = c(TRUE, FALSE)), msg)
     expect_error(cat_compare(data, "cyl", "vs", only = list()), msg)
+})
+
+test_that("cat_compare rejects invalid na_label arguments", {
+
+    msg <- "Invalid \"na_label\" argument. Must be a character vector of length one."
+    expect_error(cat_compare(data, "cyl", "vs", na_label = NULL), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na_label = NA), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na_label = 1), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na_label = TRUE), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na_label = 1:10), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na_label = LETTERS[1:10]), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na_label = c(TRUE, FALSE)), msg)
+    expect_error(cat_compare(data, "cyl", "vs", na_label = list()), msg)
 })
 
 test_that("cat_compare returns correct data with defaults", {
@@ -229,6 +253,38 @@ test_that("cat_compare returns correct data with a valid clean_names argument", 
     expect_equal(observed, expected)
 })
 
+test_that("cat_compare uses option for default clean_names argument", {
+
+    data$Cyl <- data$cyl
+    restore_option <- getOption("tabbycat.clean_names")
+
+    options(tabbycat.clean_names = TRUE)
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "Cyl", "vs")
+    expect_equal(observed, expected)
+
+    options(tabbycat.clean_names = FALSE)
+    expected <- tibble::tibble(
+        Cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "Cyl", "vs")
+    expect_equal(observed, expected)
+
+    options(tabbycat.clean_names = restore_option)
+})
+
 test_that("cat_compare returns correct data with a valid only argument", {
 
     expected <- tibble::tibble(
@@ -271,4 +327,19 @@ test_that("cat_compare returns correct data with a valid only argument", {
 
     observed <- cat_compare(data, "cyl", "vs", only = " percent ")
     expect_equal(observed, expected_percent)
+})
+
+test_that("cat_contrast returns correct data with a valid na_label argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_missing = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_missing = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "cyl", "vs", na_label = "missing")
+    expect_equal(observed, expected)
+
 })

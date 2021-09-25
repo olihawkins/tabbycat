@@ -5,7 +5,13 @@
 \title{Summarise the values of a numerical variable for each group within a
 categorical variable and return the results as a tibble}
 \usage{
-cat_summarise(data, cat, num, na.rm = FALSE, clean_names = TRUE)
+cat_summarise(
+  data,
+  cat,
+  num,
+  na.rm = FALSE,
+  clean_names = getOption("tabbycat.clean_names")
+)
 }
 \arguments{
 \item{data}{A data frame containing the vector to summarise.}
@@ -26,7 +32,8 @@ row of summary statistics is shown for observations that are NA in
 
 \item{clean_names}{A boolean indicating whether the column names of the
 results tibble should be cleaned, so that any column names produced from
-data are converted to snake_case. The default is TRUE.}
+data are converted to snake_case. The default is TRUE, but this can be
+changed with \code{options(tabbycat.clean_names = FALSE)}.}
 }
 \description{
 The results are sorted on the values of the categorical variable i.e.

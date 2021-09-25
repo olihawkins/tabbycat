@@ -5,7 +5,12 @@
 \title{Count the frequency of discrete values in a categorical vector and return
 the counts as a tibble}
 \usage{
-cat_vcount(cat, na.rm = FALSE, clean_names = TRUE, only = "")
+cat_vcount(
+  cat,
+  na.rm = FALSE,
+  clean_names = getOption("tabbycat.clean_names"),
+  only = ""
+)
 }
 \arguments{
 \item{cat}{A categorical vector of for which frequencies will be calculated.}
@@ -15,7 +20,8 @@ The default is FALSE.}
 
 \item{clean_names}{A boolean indicating whether the column names of the
 results tibble should be cleaned, so that any column names produced from
-data are converted to snake_case. The default is TRUE.}
+data are converted to snake_case. The default is TRUE, but this can be
+changed with \code{options(tabbycat.clean_names = FALSE)}.}
 
 \item{only}{A string indicating that only one of the frequency columns
 should be returned in the results. If \code{only} is either "n" or
