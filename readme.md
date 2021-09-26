@@ -4,15 +4,15 @@
 
 ## Status
 
-This package is fully functional but new. Treat as a beta.
+This package is fully functional but new. Please treat it as a beta and let me know if you run into any issues.
 
 ## Contents
 
-* [Installation](#installation)
-* [Counting functions](#counting-functions)
-* [Comparison functions](#comparison-functions)
-* [Summarising functions](#summarising-functions)
-* [Other API features](#other-api-features)
+* [Installation](#1.-installation)
+* [Counting functions](#2.-counting-functions)
+* [Comparison functions](#3.-comparison-functions)
+* [Summarising functions](#4.-summarising-functions)
+* [Other API features](#5.-other-api-features)
 
 ## List of functions
 
