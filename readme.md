@@ -272,6 +272,7 @@ library(tabbycat)
 mpg <- ggplot2::mpg
 
 cat_summarise(mpg, "class", "hwy")
+
 #   A tibble: 7 × 10
 #   class          n    na  mean    sd   min    lq   med    uq   max
 #   <chr>      <int> <int> <dbl> <dbl> <int> <dbl> <dbl> <dbl> <int>
@@ -297,6 +298,7 @@ mpg[4, ]$hwy <- NA
 
 # Call cat_summarise with defaults
 cat_summarise(mpg, "class", "hwy")
+
 #   A tibble: 8 × 10
 #   class          n    na  mean    sd   min    lq   med    uq   max
 #   <chr>      <int> <int> <dbl> <dbl> <int> <dbl> <dbl> <dbl> <int>
@@ -310,7 +312,8 @@ cat_summarise(mpg, "class", "hwy")
 # 8 NA             3     0  29.7  1.15    29  29    29    30      31
 
 # Call cat_summarise with na.rm set to TRUE
-# cat_summarise(mpg, "class", "hwy", na.rm = TRUE)
+cat_summarise(mpg, "class", "hwy", na.rm = TRUE)
+
 #   A tibble: 7 × 10
 #   class          n    na  mean    sd   min    lq   med    uq   max
 #   <chr>      <int> <int> <dbl> <dbl> <int> <dbl> <dbl> <dbl> <int>
