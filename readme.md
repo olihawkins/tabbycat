@@ -87,7 +87,7 @@ By default, if any NAs exist in the data their frequency is included in the resu
 # Set the class of the first observation to NA
 mpg[1, ]$class <- NA
 
-# Call cat_summarise with defaults
+# Call cat_count with defaults
 cat_count(mpg, "class")
 
 #   A tibble: 8 × 3
@@ -102,7 +102,7 @@ cat_count(mpg, "class")
 # 7 2seater         5 0.0214 
 # 8 NA              1 0.00427
 
-# Call cat_summarise with na.rm set to TRUE
+# Call cat_count with na.rm set to TRUE
 cat_count(mpg, "class", na.rm = TRUE)
 
 #   A tibble: 7 × 3
