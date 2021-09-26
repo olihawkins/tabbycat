@@ -253,7 +253,7 @@ cat_contrast(mpg, "class", "manufacturer", "toyota", na.rm = TRUE)
 
 Note that while removing the columns for NAs from the column results simply changes which columns are shown in the results table, removing the row for NAs from the row results affects the data in the table, because the percentage frequencies are calculated based on the rows shown. In other words, `na.rm.row` lets you calculate the percentage frequencies with or without NAs. This is consistent with the behaviour of `cat_count` and `cat_vcount`. 
 
-The `na.rm` argument is a convenience which simply sets `na.rm.row` and `na.rm.col` to the same value. If it is set, it takes priority over both of those arguements, otherwise it is ignored.
+The `na.rm` argument is a convenience which simply sets `na.rm.row` and `na.rm.col` to the same value. If it is set, it takes priority over both of those arguments, otherwise it is ignored.
 
 ## 4. Summarising functions
 
