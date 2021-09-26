@@ -1,7 +1,7 @@
 Package: tabbycat
 Type: Package
 Title: Tabulate and Summarise Categorical Data
-Version: 0.11.0
+Version: 0.12.0
 Authors@R: 
     person(
         given = "Oliver",

@@ -17,7 +17,7 @@ cat_summarise(
 \item{data}{A data frame containing the vector to summarise.}
 
 \item{cat}{The name of a column in \code{data} which is a categorical vector
-of discrete values for which frequencies will be calculated.}
+of discrete values for which summaries will be calculated.}
 
 \item{num}{The name of a column in \code{data} which is a numerical vector
 that will be summarised for each group.}
