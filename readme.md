@@ -348,7 +348,7 @@ Counting and comparison functions take a string argument called `only`. This is 
 
 The defalut value is an empty string, meaning all columns are returned by default.
 
-### 5.2. Labelling arguments for comparison functions
+### 5.3. Labelling arguments for comparison functions
 
 The comparison functions need names to use as labels for the NA columns, and in the case of `cat_contrast`, for the columns showing frequencies for the observations that are not in the target group. 
 
