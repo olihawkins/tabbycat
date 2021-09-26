@@ -2,7 +2,9 @@
 
 `tabbycat` is a small library of functions for tabulating and summarising categorical variables. Most of the functions are designed to work with dataframes, and use the tidyverse idiom of taking the dataframe as the first argument so they work within pipelines. Equivalent functions that operate directly on vectors are also provided where it makes sense.
 
-**This package is in development and is almost a beta, but not quite.**
+## Status
+
+This package is fully functional but new. Treat as a beta.
 
 ## Contents
 
@@ -81,7 +83,7 @@ cat_vcount(mpg$class)
 
 By default, if any NAs exist in the data their frequency is included in the results, but you can remove this by setting the `na.rm` argument to `TRUE`. This means the percentages are caclulated excluding NAs (i.e. based on the the counts shown in the table).
 
-``` r
+```r
 # Set the class of the first observation to NA
 mpg[1, ]$class <- NA
 
@@ -151,7 +153,7 @@ cat_compare(mpg, "class", "cyl")
 2. `col_cat` -- the variable to split into two exclusive groups along the columns
 3. `col_group` -- the name of the group in `col_cat` to contrast against the rest of the dataset
 
-``` r
+```r
 # Load tabbycat and the mpg dataset
 library(tabbycat)
 mpg <- ggplot2::mpg
@@ -175,7 +177,7 @@ cat_contrast(mpg, "class", "manufacturer", "toyota")
 By default, if any NAs exist in the data their frequency is included in both the row and column results. So there is a row for observations containing NAs in `row_cat`, and columns showing the number and percentage of NAs found in `col_cat` for each group in `row_cat`.
 
 
-``` r
+```r
 # Set the class of the first observation to NA
 mpg[1, ]$class <- NA
 
@@ -204,7 +206,7 @@ This default behaviour can be changed through three boolean arguments: `na.rm.ro
 - `na.rm.col` -- removes the columns for NAs from the column results
 - `na.rm` -- removes both the rows and columns of NAs from the results
 
-```
+```r
 # Call cat_contrast with na.rm.row set to TRUE
 cat_contrast(mpg, "class", "manufacturer", "toyota", na.rm.row = TRUE)
 
@@ -262,7 +264,7 @@ The `na.rm` argument is a convenience which simply sets `na.rm.row` and `na.rm.c
 1. `cat` -- the categorical variable for which summaries will be calculated
 2. `num` -- the numerical variable to summarise
 
-``` r
+```r
 # Load tabbycat and the mpg dataset
 library(tabbycat)
 mpg <- ggplot2::mpg
@@ -285,7 +287,7 @@ cat_summarise(mpg, "class", "hwy")
 
 In `cat_summarise`, NAs are **always** ignored in calculating the summary statistics for each group in `cat`. But the number of NAs in each group is shown in a column in the table so you can see the potential impact of NAs on the calculation of these statistics. By default, a row showing summary statistics for observations that are NA in `cat` is included in the table, but this can be turned off by setting `na.rm` to `TRUE`. You can see these behaviours in the following example.
 
-``` r
+```r
 # Set the class of the first three observations to NA
 mpg[1:3, ]$class <- NA
 
