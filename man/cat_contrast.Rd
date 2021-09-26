@@ -14,10 +14,10 @@ cat_contrast(
   na.rm.row = FALSE,
   na.rm.col = FALSE,
   na.rm = NULL,
-  clean_names = getOption("tabbycat.clean_names"),
   only = "",
-  other_label = "other",
-  na_label = "na"
+  clean_names = getOption("tabbycat.clean_names"),
+  na_label = getOption("tabbycat.na_label"),
+  other_label = getOption("tabbycat.other_label")
 )
 }
 \arguments{
@@ -48,11 +48,6 @@ having to specify them separately. If the value of \code{na.rm} is NULL,
 the argument is ignored. If it is not NULL it takes precendence.
 default is NULL.}
 
-\item{clean_names}{A boolean indicating whether the column names of the
-results tibble should be cleaned, so that any column names produced from
-data are converted to snake_case. The default is TRUE, but this can be
-changed with \code{options(tabbycat.clean_names = FALSE)}.}
-
 \item{only}{A string indicating that only one set of frequency columns
 should be returned in the results. If \code{only} is either "n" or
 "number", only the number columns are returned. If \code{only} is either
@@ -60,15 +55,20 @@ should be returned in the results. If \code{only} is either "n" or
 any other value, both sets of columns are shown. The default value is an
 empty string, which means both sets of columns are shown.}
 
-\item{other_label}{A string indicating the label to use for the columns that
-contain data for observations not in the named group. The default value is
-"other", but use this argument to set a different value if the default
-value collides with data in your dataset.}
+\item{clean_names}{A boolean indicating whether the column names of the
+results tibble should be cleaned, so that any column names produced from
+data are converted to snake_case. The default is TRUE, but this can be
+changed with \code{options(tabbycat.clean_names = FALSE)}.}
 
 \item{na_label}{A string indicating the label to use for the columns that
 contain data for missing values. The default value is "na", but use this
 argument to set a different value if the default value collides with data
 in your dataset.}
+
+\item{other_label}{A string indicating the label to use for the columns that
+contain data for observations not in the named group. The default value is
+"other", but use this argument to set a different value if the default
+value collides with data in your dataset.}
 }
 \value{
 A tibble showing the distribution of \code{row_cat} within each of

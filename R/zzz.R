@@ -4,7 +4,9 @@
     op <- options()
 
     op_tabbycat <- list(
-        tabbycat.clean_names = TRUE)
+        tabbycat.clean_names = TRUE,
+        tabbycat.na_label = "na",
+        tabbycat.other_label = "other")
 
     to_set <- !(names(op_tabbycat) %in% names(op))
     if (any(to_set)) options(op_tabbycat[to_set])

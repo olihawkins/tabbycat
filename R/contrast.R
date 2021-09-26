@@ -41,14 +41,14 @@
 #'   "p" or "percent", only the percent columns are returned. If \code{only} is
 #'   any other value, both sets of columns are shown. The default value is an
 #'   empty string, which means both sets of columns are shown.
-#' @param other_label A string indicating the label to use for the columns that
-#'   contain data for observations not in the named group. The default value is
-#'   "other", but use this argument to set a different value if the default
-#'   value collides with data in your dataset.
 #' @param na_label A string indicating the label to use for the columns that
 #'   contain data for missing values. The default value is "na", but use this
 #'   argument to set a different value if the default value collides with data
 #'   in your dataset.
+#' @param other_label A string indicating the label to use for the columns that
+#'   contain data for observations not in the named group. The default value is
+#'   "other", but use this argument to set a different value if the default
+#'   value collides with data in your dataset.
 #' @return A tibble showing the distribution of \code{row_cat} within each of
 #'   the two exclusive groups in \code{col_cat}.
 #' @export
@@ -61,10 +61,10 @@ cat_contrast <- function(
     na.rm.row = FALSE,
     na.rm.col = FALSE,
     na.rm = NULL,
-    clean_names = getOption("tabbycat.clean_names"),
     only = "",
-    other_label = "other",
-    na_label = "na") {
+    clean_names = getOption("tabbycat.clean_names"),
+    na_label = getOption("tabbycat.na_label"),
+    other_label = getOption("tabbycat.other_label")) {
 
     # Check the data argument is not null and is a dataframe
     if (is.null(data) || ! is.data.frame(data)) {
@@ -127,14 +127,14 @@ cat_contrast <- function(
         stop("Invalid \"na.rm\" argument. Must be either NULL, TRUE or FALSE.")
     }
 
-    # Check the clean_names argument is valid
-    if (length(clean_names) != 1 || is.na(clean_names) || ! is.logical(clean_names)) {
-        stop("Invalid \"clean_names\" argument. Must be either TRUE or FALSE.")
-    }
-
     # Check the only argument is valid
     if (length(only) != 1 || is.na(only) || ! is.character(only)) {
         stop("Invalid \"only\" argument. Must be a character vector of length one.")
+    }
+
+    # Check the clean_names argument is valid
+    if (length(clean_names) != 1 || is.na(clean_names) || ! is.logical(clean_names)) {
+        stop("Invalid \"clean_names\" argument. Must be either TRUE or FALSE.")
     }
 
     # Check the other_label argument is a character vector of length one

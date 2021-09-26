@@ -286,83 +286,6 @@ test_that("cat_contrast returns correct data with a valid na.rm argument", {
     expect_equal(observed, expected)
 })
 
-test_that("cat_contrast returns correct data with a valid clean_names argument", {
-
-    data$Cyl <- data$cyl
-
-    expected <- tibble::tibble(
-        cyl = c(8, 4, 6, NA),
-        n_merc = c(3, 2, 2, 0),
-        n_other = c(11, 9, 3, 1),
-        n_na = c(0, 0, 1, 0),
-        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
-        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
-        p_na = c(0, 0, 1, 0))
-    observed <- cat_contrast(
-        data,
-        "Cyl",
-        "manufacturer",
-        "Merc",
-        clean_names = TRUE)
-    expect_equal(observed, expected)
-
-    expected <- tibble::tibble(
-        Cyl = c(8, 4, 6, NA),
-        n_Merc = c(3, 2, 2, 0),
-        n_other = c(11, 9, 3, 1),
-        n_na = c(0, 0, 1, 0),
-        p_Merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
-        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
-        p_na = c(0, 0, 1, 0))
-    observed <- cat_contrast(
-        data,
-        "Cyl",
-        "manufacturer",
-        "Merc",
-        clean_names = FALSE)
-    expect_equal(observed, expected)
-})
-
-test_that("cat_contrast uses option for default clean_names argument", {
-
-    data$Cyl <- data$cyl
-    restore_option <- getOption("tabbycat.clean_names")
-
-    options(tabbycat.clean_names = TRUE)
-    expected <- tibble::tibble(
-        cyl = c(8, 4, 6, NA),
-        n_merc = c(3, 2, 2, 0),
-        n_other = c(11, 9, 3, 1),
-        n_na = c(0, 0, 1, 0),
-        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
-        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
-        p_na = c(0, 0, 1, 0))
-    observed <- cat_contrast(
-        data,
-        "Cyl",
-        "manufacturer",
-        "Merc")
-    expect_equal(observed, expected)
-
-    options(tabbycat.clean_names = FALSE)
-    expected <- tibble::tibble(
-        Cyl = c(8, 4, 6, NA),
-        n_Merc = c(3, 2, 2, 0),
-        n_other = c(11, 9, 3, 1),
-        n_na = c(0, 0, 1, 0),
-        p_Merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
-        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
-        p_na = c(0, 0, 1, 0))
-    observed <- cat_contrast(
-        data,
-        "Cyl",
-        "manufacturer",
-        "Merc")
-    expect_equal(observed, expected)
-
-    options(tabbycat.clean_names = restore_option)
-})
-
 test_that("cat_contrast returns correct data with a valid only argument", {
 
     expected <- tibble::tibble(
@@ -442,23 +365,81 @@ test_that("cat_contrast returns correct data with a valid only argument", {
     expect_equal(observed, expected_percent)
 })
 
-test_that("cat_contrast returns correct data with a valid other_label argument", {
+test_that("cat_contrast returns correct data with a valid clean_names argument", {
+
+    data$Cyl <- data$cyl
 
     expected <- tibble::tibble(
         cyl = c(8, 4, 6, NA),
         n_merc = c(3, 2, 2, 0),
-        n_not_merc = c(11, 9, 3, 1),
+        n_other = c(11, 9, 3, 1),
         n_na = c(0, 0, 1, 0),
         p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
-        p_not_merc = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
         p_na = c(0, 0, 1, 0))
     observed <- cat_contrast(
         data,
-        "cyl",
+        "Cyl",
         "manufacturer",
         "Merc",
-        other_label = "not_merc")
+        clean_names = TRUE)
     expect_equal(observed, expected)
+
+    expected <- tibble::tibble(
+        Cyl = c(8, 4, 6, NA),
+        n_Merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_Merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "Cyl",
+        "manufacturer",
+        "Merc",
+        clean_names = FALSE)
+    expect_equal(observed, expected)
+})
+
+test_that("cat_contrast uses option for default clean_names argument", {
+
+    data$Cyl <- data$cyl
+    restore_option <- getOption("tabbycat.clean_names")
+
+    options(tabbycat.clean_names = TRUE)
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "Cyl",
+        "manufacturer",
+        "Merc")
+    expect_equal(observed, expected)
+
+    options(tabbycat.clean_names = FALSE)
+    expected <- tibble::tibble(
+        Cyl = c(8, 4, 6, NA),
+        n_Merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_Merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "Cyl",
+        "manufacturer",
+        "Merc")
+    expect_equal(observed, expected)
+
+    options(tabbycat.clean_names = restore_option)
 })
 
 test_that("cat_contrast returns correct data with a valid na_label argument", {
@@ -478,4 +459,70 @@ test_that("cat_contrast returns correct data with a valid na_label argument", {
         "Merc",
         na_label = "missing")
     expect_equal(observed, expected)
+})
+
+test_that("cat_contrast uses option for default na_label argument", {
+
+    restore_option <- getOption("tabbycat.na_label")
+
+    options(tabbycat.na_label = "missing")
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_other = c(11, 9, 3, 1),
+        n_missing = c(0, 0, 1, 0),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_other = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_missing = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc")
+    expect_equal(observed, expected)
+
+    options(tabbycat.na_label = restore_option)
+
+})
+
+test_that("cat_contrast returns correct data with a valid other_label argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_remainder = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_remainder = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc",
+        other_label = "remainder")
+    expect_equal(observed, expected)
+})
+
+test_that("cat_contrast uses option for default other_label argument", {
+
+    restore_option <- getOption("tabbycat.other_label")
+
+    options(tabbycat.other_label = "remainder")
+    expected <- tibble::tibble(
+        cyl = c(8, 4, 6, NA),
+        n_merc = c(3, 2, 2, 0),
+        n_remainder = c(11, 9, 3, 1),
+        n_na = c(0, 0, 1, 0),
+        p_merc = c(0.42857143, 0.28571429, 0.28571429, 0.0),
+        p_remainder = c(0.45833333, 0.37500000, 0.12500000, 0.04166667),
+        p_na = c(0, 0, 1, 0))
+    observed <- cat_contrast(
+        data,
+        "cyl",
+        "manufacturer",
+        "Merc")
+    expect_equal(observed, expected)
+
+    options(tabbycat.other_label = restore_option)
 })

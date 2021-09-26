@@ -226,6 +226,50 @@ test_that("cat_compare returns correct data with a valid na.rm argument", {
     expect_equal(observed, expected)
 })
 
+test_that("cat_compare returns correct data with a valid only argument", {
+
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "cyl", "vs", only = "ignore")
+    expect_equal(observed, expected)
+
+    expected_number <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_na = c(0, 1, 0, 0))
+
+    observed <- cat_compare(data, "cyl", "vs", only = "n")
+    expect_equal(observed, expected_number)
+
+    observed <- cat_compare(data, "cyl", "vs", only = "number")
+    expect_equal(observed, expected_number)
+
+    observed <- cat_compare(data, "cyl", "vs", only = " number ")
+    expect_equal(observed, expected_number)
+
+    expected_percent <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_na = c(0, 1, 0, 0))
+
+    observed <- cat_compare(data, "cyl", "vs", only = "p")
+    expect_equal(observed, expected_percent)
+
+    observed <- cat_compare(data, "cyl", "vs", only = "percent")
+    expect_equal(observed, expected_percent)
+
+    observed <- cat_compare(data, "cyl", "vs", only = " percent ")
+    expect_equal(observed, expected_percent)
+})
+
 test_that("cat_compare returns correct data with a valid clean_names argument", {
 
     data$Cyl <- data$cyl
@@ -285,50 +329,6 @@ test_that("cat_compare uses option for default clean_names argument", {
     options(tabbycat.clean_names = restore_option)
 })
 
-test_that("cat_compare returns correct data with a valid only argument", {
-
-    expected <- tibble::tibble(
-        cyl = c(4, 6, 8, NA),
-        n_0 = c(1, 1, 14, 1),
-        n_1 = c(10, 4, 0, 0),
-        n_na = c(0, 1, 0, 0),
-        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
-        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
-        p_na = c(0, 1, 0, 0))
-    observed <- cat_compare(data, "cyl", "vs", only = "ignore")
-    expect_equal(observed, expected)
-
-    expected_number <- tibble::tibble(
-        cyl = c(4, 6, 8, NA),
-        n_0 = c(1, 1, 14, 1),
-        n_1 = c(10, 4, 0, 0),
-        n_na = c(0, 1, 0, 0))
-
-    observed <- cat_compare(data, "cyl", "vs", only = "n")
-    expect_equal(observed, expected_number)
-
-    observed <- cat_compare(data, "cyl", "vs", only = "number")
-    expect_equal(observed, expected_number)
-
-    observed <- cat_compare(data, "cyl", "vs", only = " number ")
-    expect_equal(observed, expected_number)
-
-    expected_percent <- tibble::tibble(
-        cyl = c(4, 6, 8, NA),
-        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
-        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
-        p_na = c(0, 1, 0, 0))
-
-    observed <- cat_compare(data, "cyl", "vs", only = "p")
-    expect_equal(observed, expected_percent)
-
-    observed <- cat_compare(data, "cyl", "vs", only = "percent")
-    expect_equal(observed, expected_percent)
-
-    observed <- cat_compare(data, "cyl", "vs", only = " percent ")
-    expect_equal(observed, expected_percent)
-})
-
 test_that("cat_contrast returns correct data with a valid na_label argument", {
 
     expected <- tibble::tibble(
@@ -341,5 +341,23 @@ test_that("cat_contrast returns correct data with a valid na_label argument", {
         p_missing = c(0, 1, 0, 0))
     observed <- cat_compare(data, "cyl", "vs", na_label = "missing")
     expect_equal(observed, expected)
+})
 
+test_that("cat_compare uses option for default na_label argument", {
+
+    restore_option <- getOption("tabbycat.na_label")
+
+    options(tabbycat.na_label = "missing")
+    expected <- tibble::tibble(
+        cyl = c(4, 6, 8, NA),
+        n_0 = c(1, 1, 14, 1),
+        n_1 = c(10, 4, 0, 0),
+        n_missing = c(0, 1, 0, 0),
+        p_0 = c(0.05882353, 0.05882353, 0.82352941, 0.05882353),
+        p_1 = c(.71428571, 0.28571429, 0.0, 0.0),
+        p_missing = c(0, 1, 0, 0))
+    observed <- cat_compare(data, "cyl", "vs")
+    expect_equal(observed, expected)
+
+    options(tabbycat.na_label = restore_option)
 })

@@ -10,24 +10,24 @@
 #' @param cat A categorical vector of for which frequencies will be calculated.
 #' @param na.rm A boolean indicating whether to exclude NAs from the results.
 #'   The default is FALSE.
-#' @param clean_names A boolean indicating whether the column names of the
-#'   results tibble should be cleaned, so that any column names produced from
-#'   data are converted to snake_case. The default is TRUE, but this can be
-#'   changed with \code{options(tabbycat.clean_names = FALSE)}.
 #' @param only A string indicating that only one of the frequency columns
 #'   should be returned in the results. If \code{only} is either "n" or
 #'   "number", only the number column is returned. If \code{only} is either
 #'   "p" or "percent", only the percent column is returned. If \code{only} is
 #'   any other value, both columns are shown. The default value is an empty
 #'   string, which means both columns are shown.
+#' @param clean_names A boolean indicating whether the column names of the
+#'   results tibble should be cleaned, so that any column names produced from
+#'   data are converted to snake_case. The default is TRUE, but this can be
+#'   changed with \code{options(tabbycat.clean_names = FALSE)}.
 #' @return A tibble showing the frequency of each value in the input vector.
 #' @export
 
 cat_vcount <- function(
     cat,
     na.rm = FALSE,
-    clean_names = getOption("tabbycat.clean_names"),
-    only = "") {
+    only = "",
+    clean_names = getOption("tabbycat.clean_names")) {
 
     # Check the cat argument is not null and is a vector
     if (is.null(cat) || ! is.atomic(cat)) {
@@ -44,14 +44,14 @@ cat_vcount <- function(
         stop("Invalid \"na.rm\" argument. Must be either TRUE or FALSE.")
     }
 
-    # Check the clean_names argument is valid
-    if (length(clean_names) != 1 || is.na(clean_names) || ! is.logical(clean_names)) {
-        stop("Invalid \"clean_names\" argument. Must be either TRUE or FALSE.")
-    }
-
     # Check the only argument is valid
     if (length(only) != 1 || is.na(only) || ! is.character(only)) {
         stop("Invalid \"only\" argument. Must be a character vector of length one.")
+    }
+
+    # Check the clean_names argument is valid
+    if (length(clean_names) != 1 || is.na(clean_names) || ! is.logical(clean_names)) {
+        stop("Invalid \"clean_names\" argument. Must be either TRUE or FALSE.")
     }
 
     # Get the variable name of the cat argument

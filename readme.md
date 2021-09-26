@@ -253,10 +253,6 @@ Note that while removing the columns for NAs from the column results simply chan
 
 The `na.rm` argument is a convenience which simply sets `na.rm.row` and `na.rm.col` to the same value. If it is set, it takes priority over both of those arguements, otherwise it is ignored.
 
-### 3.2. Labelling for comparison functions
-
-The comparison functions need names to use as labels for the NA columns, and in the case of `cat_contrast`, for the columns showing frequencies for the observations that aren't in the target group. These labels are controlled with the arguments `na_label` and `other_label`. The default values are "na" and "other" respectively, but you can change them if they colllide with data in your dataset. 
-
 ## 4. Summarising functions
 
 ### `cat_summarise`
@@ -351,3 +347,14 @@ Counting and comparison functions take a string argument called `only`. This is 
 - *any other string* -- to return both the number and percentage columns
 
 The defalut value is an empty string, meaning all columns are returned by default.
+
+### 5.2. Labelling arguments for comparison functions
+
+The comparison functions need names to use as labels for the NA columns, and in the case of `cat_contrast`, for the columns showing frequencies for the observations that are not in the target group. 
+
+These labels are controlled with the arguments `na_label` and `other_label`. The default values are `"na"` and `"other"` respectively, but you can change them if they colllide with data in your dataset. If it makes more sense to change the globally when working with a particular dataset, you can use the following package options.
+
+```r
+options(tabbycat.na_label = "missing")
+options(tabbycat.other_label = "remainder")
+```
