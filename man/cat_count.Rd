@@ -14,7 +14,7 @@ cat_count(
 )
 }
 \arguments{
-\item{data}{A data frame containing a categorical vector to summarise.}
+\item{data}{A dataframe containing a categorical vector to summarise.}
 
 \item{cat}{The column name of a categorical variable for which frequencies
 will be calculated.}

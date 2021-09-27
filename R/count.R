@@ -7,7 +7,7 @@
 #'
 #' The results are sorted in decending order of frequency.
 #'
-#' @param data A data frame containing a categorical vector to summarise.
+#' @param data A dataframe containing a categorical vector to summarise.
 #' @param cat The column name of a categorical variable for which frequencies
 #'   will be calculated.
 #' @param na.rm A boolean indicating whether to exclude NAs from the results.

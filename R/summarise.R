@@ -6,7 +6,7 @@
 #' vector it will be sorted alphabetically. If it is a factor it will be
 #' sorted in the order of its levels.
 #'
-#' @param data A data frame containing the vector to summarise.
+#' @param data A dataframe containing the vector to summarise.
 #' @param cat The name of a column in \code{data} which is a categorical vector
 #'   of discrete values for which summaries will be calculated.
 #' @param num The name of a column in \code{data} which is a numerical vector
