@@ -354,7 +354,7 @@ The defalut value is an empty string, meaning all columns are returned by defaul
 
 The comparison functions need names to use as labels for the NA columns, and in the case of `cat_contrast`, for the columns showing frequencies for the observations that are not in the target group. 
 
-These labels are controlled with the arguments `na_label` and `other_label`. The default values are `"na"` and `"other"` respectively, but you can change them if they colllide with data in your dataset. If it makes more sense to change the globally when working with a particular dataset, you can use the following package options.
+These labels are controlled with the arguments `na_label` and `other_label`. The default values are `"na"` and `"other"` respectively, but you can change them if they colllide with data in your dataset. You can use the following package options if it makes more sense to change them globally when working with a particular dataset.
 
 ```r
 options(tabbycat.na_label = "missing")
