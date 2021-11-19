@@ -3,8 +3,7 @@
 \name{cat_compare}
 \alias{cat_compare}
 \title{Calculate the frequency of discrete values in one categorical variable for
-each group within another categorical variable and return the results as a
-tibble}
+each group within another categorical variable}
 \usage{
 cat_compare(
   data,
@@ -64,11 +63,9 @@ A tibble showing the distribution of \code{row_cat} within each of
 }
 \description{
 This function crosstabulates the frequencies of one categorical variable
-within the groups of another.
-}
-\details{
-The results are sorted on the values of the variable whose distribution is
-shown in each column i.e. the variable specified with \code{row_cat}. If
-this variable is a character vector it will be sorted alphabetically. If
-it is a factor it will be sorted in the order of its levels.
+within the groups of another. The results are sorted on the values of the
+variable whose distribution is shown in each column i.e. the variable
+specified with \code{row_cat}. If this variable is a character vector it
+will be sorted alphabetically. If it is a factor it will be sorted in the
+order of its levels.
 }

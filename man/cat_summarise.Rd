@@ -2,10 +2,19 @@
 % Please edit documentation in R/summarise.R
 \name{cat_summarise}
 \alias{cat_summarise}
+\alias{cat_summarize}
 \title{Summarise the values of a numerical variable for each group within a
-categorical variable and return the results as a tibble}
+categorical variable}
 \usage{
 cat_summarise(
+  data,
+  cat,
+  num,
+  na.rm = FALSE,
+  clean_names = getOption("tabbycat.clean_names")
+)
+
+cat_summarize(
   data,
   cat,
   num,
@@ -39,5 +48,6 @@ changed with \code{options(tabbycat.clean_names = FALSE)}.}
 The results are sorted on the values of the categorical variable i.e.
 the variable specified with \code{cat}. If this variable is a character
 vector it will be sorted alphabetically. If it is a factor it will be
-sorted in the order of its levels.
+sorted in the order of its levels. This function can be called as either
+\code{cat_summarise} or \code{cat_summarize}.
 }

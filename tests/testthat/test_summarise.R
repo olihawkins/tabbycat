@@ -248,3 +248,10 @@ test_that("cat_summarise uses option for default clean_names argument", {
 
     options(tabbycat.clean_names = restore_option)
 })
+
+test_that("cat_summarize is an alias for cat_summarise", {
+
+    summarise <- cat_summarise(data, "cyl", "mpg")
+    summarize <- cat_summarize(data, "cyl", "mpg")
+    expect_equal(summarise, summarize)
+})

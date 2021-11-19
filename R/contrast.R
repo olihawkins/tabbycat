@@ -1,15 +1,13 @@
 #' Calculate the frequency of discrete values in one categorical variable for
 #' each of two mutually exclusive groups within another categorical variable
-#' and return the results as a tibble
 #'
 #' This function shows the distrbution of values within given a categorical
 #' variable for one group within another categorical variable, and compares it
 #' with the distribution among all observations not in that group. Its purpose
 #' is to let you see quickly whether the distribution within that group differs
-#' from the distribution for the rest of the observations.
-#'
-#' The results are sorted in decending order of frequency for the named group
-#' i.e. the group named in \code{col_group}.
+#' from the distribution for the rest of the observations. The results are
+#' sorted in decending order of frequency for the named group i.e. the group
+#' named in \code{col_group}.
 #'
 #' @param data A dataframe containing the two variables of interest.
 #' @param row_cat The column name of a categorical variable whose distribution

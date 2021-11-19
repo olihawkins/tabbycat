@@ -1,10 +1,11 @@
 #' Summarise the values of a numerical variable for each group within a
-#' categorical variable and return the results as a tibble
+#' categorical variable
 #'
 #' The results are sorted on the values of the categorical variable i.e.
 #' the variable specified with \code{cat}. If this variable is a character
 #' vector it will be sorted alphabetically. If it is a factor it will be
-#' sorted in the order of its levels.
+#' sorted in the order of its levels. This function can be called as either
+#' \code{cat_summarise} or \code{cat_summarize}.
 #'
 #' @param data A dataframe containing the vector to summarise.
 #' @param cat The name of a column in \code{data} which is a categorical vector
@@ -105,6 +106,9 @@ cat_summarise <- function(
     summary
 }
 
+#' @rdname cat_summarise
+#' @export
+cat_summarize <- cat_summarise
 
 #' Calculate \code{mean} but return NA rather than NaN when values are missing
 #'

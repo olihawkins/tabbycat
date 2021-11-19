@@ -259,7 +259,7 @@ The `na.rm` argument is a convenience which simply sets `na.rm.row` and `na.rm.c
 
 ### `cat_summarise`
 
-`cat_summarise` calculates summary statistics for a numerical variable for each group within a categorical variable. Call the function with a dataframe and provide:
+`cat_summarise` (or `cat_summarize`) calculates summary statistics for a numerical variable for each group within a categorical variable. Call the function with a dataframe and provide:
 
 1. `cat` -- the categorical variable for which summaries will be calculated
 2. `num` -- the numerical variable to summarise

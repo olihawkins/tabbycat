@@ -2,8 +2,7 @@
 % Please edit documentation in R/vcount.R
 \name{cat_vcount}
 \alias{cat_vcount}
-\title{Count the frequency of discrete values in a categorical vector and return
-the counts as a tibble}
+\title{Count the frequency of discrete values in a categorical vector}
 \usage{
 cat_vcount(
   cat,
@@ -36,8 +35,6 @@ A tibble showing the frequency of each value in the input vector.
 \description{
 This function differs from \code{cat_count} in that it operates directly on
 vectors. rather than on columns in dataframes, which means it is less useful
-in pipelines but can handle a wider range of inputs.
-}
-\details{
-The results are sorted in decending order of frequency.
+in pipelines but can handle a wider range of inputs. The results are sorted
+in decending order of frequency.
 }

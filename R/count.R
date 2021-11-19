@@ -1,11 +1,9 @@
-#' Count the frequency of discrete values in the column of a dataframe and
-#' return the results as a tibble
+#' Count the frequency of discrete values in the column of a dataframe
 #'
 #' This function differs from \code{cat_vcount} in that it operates on columns
 #' in dataframes rather than directly on vectors, which means it is more useful
-#' in pipelines but handles a narrower range of inputs.
-#'
-#' The results are sorted in decending order of frequency.
+#' in pipelines but handles a narrower range of inputs. The results are sorted
+#' in decending order of frequency.
 #'
 #' @param data A dataframe containing a categorical vector to summarise.
 #' @param cat The column name of a categorical variable for which frequencies
