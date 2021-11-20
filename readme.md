@@ -8,7 +8,6 @@ This package is fully functional but new. Please let me know if you run into any
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/olihawkins/tabbycat/workflows/R-CMD-check/badge.svg)](https://github.com/olihawkins/tabbycat/actions)
-[![test-coverage](https://github.com/olihawkins/tabbycat/workflows/test-coverage/badge.svg)](https://github.com/olihawkins/tabbycat/actions)
 [![codecov](https://codecov.io/gh/olihawkins/tabbycat/branch/main/graph/badge.svg?token=W177A4T66K)](https://codecov.io/gh/olihawkins/tabbycat)
 <!-- badges: end -->
 

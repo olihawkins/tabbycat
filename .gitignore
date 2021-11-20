@@ -39,3 +39,6 @@ rsconnect/
 # Mac files
 .DS_Store
 
+# Ignored until CRAN submission
+NEWS.md
+
