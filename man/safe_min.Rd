@@ -12,8 +12,8 @@ safe_min(x, na.rm = FALSE)
 \item{na.rm}{A boolean indicating whether to remove NAs.}
 }
 \description{
-This function is a drop-in replacement for \code{min}, which is used in cat
-summarise. It suppresses the warning when all values are NA and na.rm is
-TRUE, and returns NA instean of Inf.
+This function is a drop-in replacement for \code{min}, which is used in
+\code{cat_summarise}. It suppresses the warning when all values are NA and
+na.rm is TRUE, and returns NA instead of Inf.
 }
 \keyword{internal}

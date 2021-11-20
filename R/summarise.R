@@ -112,8 +112,8 @@ cat_summarize <- cat_summarise
 
 #' Calculate \code{mean} but return NA rather than NaN when values are missing
 #'
-#' This function is a drop-in replacement for \code{mean}, which is used in cat
-#' summarise. It returns NA rather than NaN when all values are NA.
+#' This function is a drop-in replacement for \code{mean}, which is used in
+#' \code{cat_summarise}. It returns NA rather than NaN when all values are NA.
 #'
 #' @param x A numerical vector.
 #' @param na.rm A boolean indicating whether to remove NAs.
@@ -127,9 +127,9 @@ safe_mean <- function(x, na.rm = FALSE) {
 
 #' Calculate \code{min} but suppress the warning when all values are missing
 #'
-#' This function is a drop-in replacement for \code{min}, which is used in cat
-#' summarise. It suppresses the warning when all values are NA and na.rm is
-#' TRUE, and returns NA instean of Inf.
+#' This function is a drop-in replacement for \code{min}, which is used in
+#' \code{cat_summarise}. It suppresses the warning when all values are NA and
+#' na.rm is TRUE, and returns NA instead of Inf.
 #'
 #' @param x A numerical vector.
 #' @param na.rm A boolean indicating whether to remove NAs.
@@ -146,9 +146,9 @@ safe_min <- function(x, na.rm = FALSE) {
 
 #' Calculate \code{max} but suppress the warning when all values are missing
 #'
-#' This function is a drop-in replacement for \code{max}, which is used in cat
-#' summarise. It suppresses the warning when all values are NA and na.rm is
-#' TRUE, and returns NA instean of -Inf.
+#' This function is a drop-in replacement for \code{max}, which is used in
+#' \code{cat_summarise}. It suppresses the warning when all values are NA and
+#' na.rm is TRUE, and returns NA instead of -Inf.
 #'
 #' @param x A numerical vector.
 #' @param na.rm A boolean indicating whether to remove NAs.

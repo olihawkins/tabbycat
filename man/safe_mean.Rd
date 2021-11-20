@@ -12,7 +12,7 @@ safe_mean(x, na.rm = FALSE)
 \item{na.rm}{A boolean indicating whether to remove NAs.}
 }
 \description{
-This function is a drop-in replacement for \code{mean}, which is used in cat
-summarise. It returns NA rather than NaN when all values are NA.
+This function is a drop-in replacement for \code{mean}, which is used in
+\code{cat_summarise}. It returns NA rather than NaN when all values are NA.
 }
 \keyword{internal}
