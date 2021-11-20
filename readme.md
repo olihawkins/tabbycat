@@ -2,13 +2,14 @@
 
 `tabbycat` is a small library of functions for tabulating and summarising categorical variables. Most of the functions are designed to work with dataframes, and use the tidyverse idiom of taking the dataframe as the first argument so they work within pipelines. Equivalent functions that operate directly on vectors are also provided where it makes sense.
 
-<!-- badges: start -->
-[![R-CMD-check](https://github.com/olihawkins/tabbycat/workflows/R-CMD-check/badge.svg)](https://github.com/olihawkins/tabbycat/actions)
-<!-- badges: end -->
-
 ## Status
 
 This package is fully functional but new. Please let me know if you run into any issues.
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/olihawkins/tabbycat/workflows/R-CMD-check/badge.svg)](https://github.com/olihawkins/tabbycat/actions)
+[![test-coverage](https://github.com/olihawkins/tabbycat/workflows/test-coverage/badge.svg)](https://github.com/olihawkins/tabbycat/actions)
+<!-- badges: end -->
 
 ## Contents
 
