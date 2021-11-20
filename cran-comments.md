@@ -9,7 +9,7 @@ There were 0 errors, 0 warnings, 0 notes in all test environments.
 ## Test environments
 
 * Local R installation
-    * MacOS 12.0.1, R 4.1.1
+    * MacOS 12.0.1, R 4.1.2
 
 * GitHub actions:
   * Mac OS X 10.15.7 19H1519, R 4.1.2
