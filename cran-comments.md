@@ -1,6 +1,12 @@
 # CRAN comments
 
-This is a first submission.
+This is a resubmission.
+
+## Changes since last submission
+
+* LICENSE file updated to conform to CRAN template license format
+* LICENSE changed to MIT
+* Redundant language removed from Description
 
 ## R CMD check results
 

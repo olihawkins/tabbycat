@@ -1,7 +1,6 @@
 #' tabbycat: Tabulate and summarise categorical data
 #'
-#' A small library of functions for exploring, tabulating, and summarising
-#' categorical variables.
+#' Functions for tabulating and summarising categorical variables.
 #'
 #' @docType package
 #' @name tabbycat
