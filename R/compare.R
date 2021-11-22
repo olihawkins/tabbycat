@@ -38,8 +38,8 @@
 #'   contain data for missing values. The default value is "na", but use this
 #'   argument to set a different value if the default value collides with data
 #'   in your dataset.
-#' @return A tibble showing the distribution of \code{row_cat} within each of
-#'   the two exclusive groups in \code{col_cat}.
+#' @return A tibble showing the distribution of \code{row_cat} within each
+#'   group in \code{col_cat}.
 #' @export
 
 cat_compare <- function(

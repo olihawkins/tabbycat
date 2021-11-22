@@ -58,8 +58,8 @@ argument to set a different value if the default value collides with data
 in your dataset.}
 }
 \value{
-A tibble showing the distribution of \code{row_cat} within each of
-  the two exclusive groups in \code{col_cat}.
+A tibble showing the distribution of \code{row_cat} within each
+  group in \code{col_cat}.
 }
 \description{
 This function crosstabulates the frequencies of one categorical variable

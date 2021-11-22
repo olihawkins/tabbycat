@@ -11,6 +11,9 @@ safe_max(x, na.rm = FALSE)
 
 \item{na.rm}{A boolean indicating whether to remove NAs.}
 }
+\value{
+The max of \code{x} or NA when values are missing.
+}
 \description{
 This function is a drop-in replacement for \code{max}, which is used in
 \code{cat_summarise}. It suppresses the warning when all values are NA and

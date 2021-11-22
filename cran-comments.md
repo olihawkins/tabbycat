@@ -4,9 +4,8 @@ This is a resubmission.
 
 ## Changes since last submission
 
-* LICENSE file updated to conform to CRAN template license format
-* LICENSE changed to MIT
-* Redundant language removed from Description
+* Added single quotes around 'tidyverse' in Description
+* Added '\value' tags to cat_summarise.Rd
 
 ## R CMD check results
 

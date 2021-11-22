@@ -6,7 +6,7 @@
 #' with the distribution among all observations not in that group. Its purpose
 #' is to let you see quickly whether the distribution within that group differs
 #' from the distribution for the rest of the observations. The results are
-#' sorted in decending order of frequency for the named group i.e. the group
+#' sorted in descending order of frequency for the named group i.e. the group
 #' named in \code{col_group}.
 #'
 #' @param data A dataframe containing the two variables of interest.

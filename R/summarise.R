@@ -7,7 +7,8 @@
 #' sorted in the order of its levels. This function can be called as either
 #' \code{cat_summarise} or \code{cat_summarize}.
 #'
-#' @param data A dataframe containing the vector to summarise.
+#' @param data A dataframe containing a categorical variable and numerical
+#'   variable to summarise.
 #' @param cat The name of a column in \code{data} which is a categorical vector
 #'   of discrete values for which summaries will be calculated.
 #' @param num The name of a column in \code{data} which is a numerical vector
@@ -23,6 +24,8 @@
 #'   results tibble should be cleaned, so that any column names produced from
 #'   data are converted to snake_case. The default is TRUE, but this can be
 #'   changed with \code{options(tabbycat.clean_names = FALSE)}.
+#' @return A tibble showing summary statistics for \code{num} for each group
+#'   in \code{cat}.
 #' @export
 
 cat_summarise <- function(
@@ -108,6 +111,7 @@ cat_summarise <- function(
 
 #' @rdname cat_summarise
 #' @export
+#'
 cat_summarize <- cat_summarise
 
 #' Calculate \code{mean} but return NA rather than NaN when values are missing
@@ -117,6 +121,7 @@ cat_summarize <- cat_summarise
 #'
 #' @param x A numerical vector.
 #' @param na.rm A boolean indicating whether to remove NAs.
+#' @return The mean of \code{x} or NA when values are missing.
 #' @keywords internal
 
 safe_mean <- function(x, na.rm = FALSE) {
@@ -133,6 +138,7 @@ safe_mean <- function(x, na.rm = FALSE) {
 #'
 #' @param x A numerical vector.
 #' @param na.rm A boolean indicating whether to remove NAs.
+#' @return The min of \code{x} or NA when values are missing.
 #' @keywords internal
 
 safe_min <- function(x, na.rm = FALSE) {
@@ -152,6 +158,7 @@ safe_min <- function(x, na.rm = FALSE) {
 #'
 #' @param x A numerical vector.
 #' @param na.rm A boolean indicating whether to remove NAs.
+#' @return The max of \code{x} or NA when values are missing.
 #' @keywords internal
 
 safe_max <- function(x, na.rm = FALSE) {

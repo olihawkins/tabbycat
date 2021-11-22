@@ -13,9 +13,10 @@ cat_count(
 )
 }
 \arguments{
-\item{data}{A dataframe containing a categorical vector to summarise.}
+\item{data}{A dataframe containing a categorical vector for which
+frequencies will be calculated.}
 
-\item{cat}{The column name of a categorical variable for which frequencies
+\item{cat}{The column name of the categorical variable for which frequencies
 will be calculated.}
 
 \item{na.rm}{A boolean indicating whether to exclude NAs from the results.
@@ -34,11 +35,11 @@ data are converted to snake_case. The default is TRUE, but this can be
 changed with \code{options(tabbycat.clean_names = FALSE)}.}
 }
 \value{
-A tibble showing the frequency of each value in the input vector.
+A tibble showing the frequency of each value in \code{cat}.
 }
 \description{
 This function differs from \code{cat_vcount} in that it operates on columns
 in dataframes rather than directly on vectors, which means it is more useful
 in pipelines but handles a narrower range of inputs. The results are sorted
-in decending order of frequency.
+in descending order of frequency.
 }

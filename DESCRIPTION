@@ -1,7 +1,7 @@
 Package: tabbycat
 Type: Package
 Title: Tabulate and Summarise Categorical Data
-Version: 0.16.13
+Version: 0.16.14
 Authors@R: 
     person(
         given = "Oliver",
@@ -10,7 +10,7 @@ Authors@R:
         email = "oli@olihawkins.com")
 Maintainer: Oliver Hawkins <oli@olihawkins.com>
 Description: Functions for tabulating and summarising categorical variables. 
-    Most functions are designed to work with dataframes, and use the tidyverse 
+    Most functions are designed to work with dataframes, and use the 'tidyverse' 
     idiom of taking the dataframe as the first argument so they work within 
     pipelines. Equivalent functions that operate directly on vectors are also 
     provided where it makes sense. This package aims to make exploratory data 

@@ -23,7 +23,8 @@ cat_summarize(
 )
 }
 \arguments{
-\item{data}{A dataframe containing the vector to summarise.}
+\item{data}{A dataframe containing a categorical variable and numerical
+variable to summarise.}
 
 \item{cat}{The name of a column in \code{data} which is a categorical vector
 of discrete values for which summaries will be calculated.}
@@ -43,6 +44,10 @@ row of summary statistics is shown for observations that are NA in
 results tibble should be cleaned, so that any column names produced from
 data are converted to snake_case. The default is TRUE, but this can be
 changed with \code{options(tabbycat.clean_names = FALSE)}.}
+}
+\value{
+A tibble showing summary statistics for \code{num} for each group
+  in \code{cat}.
 }
 \description{
 The results are sorted on the values of the categorical variable i.e.
