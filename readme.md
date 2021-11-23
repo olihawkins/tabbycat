@@ -7,6 +7,7 @@
 This package is fully functional but new. Please let me know if you run into any issues.
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/tabbycat)](https://CRAN.R-project.org/package=tabbycat)
 [![R-CMD-check](https://github.com/olihawkins/tabbycat/workflows/R-CMD-check/badge.svg)](https://github.com/olihawkins/tabbycat/actions)
 [![codecov](https://codecov.io/gh/olihawkins/tabbycat/branch/main/graph/badge.svg?token=W177A4T66K)](https://codecov.io/gh/olihawkins/tabbycat)
 <!-- badges: end -->
@@ -29,7 +30,13 @@ This package is fully functional but new. Please let me know if you run into any
 
 ## 1. Installation
 
-Install from GitHub using remotes.
+Install the latest release from CRAN.
+
+```r
+install.packages("tabbycat")
+```
+
+Or install the development version from GitHub.
 
 ```r
 install.packages("remotes")

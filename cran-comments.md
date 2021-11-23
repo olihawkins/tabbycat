@@ -5,7 +5,11 @@ This is a resubmission.
 ## Changes since last submission
 
 * Added single quotes around 'tidyverse' in Description
-* Added '\value' tags to cat_summarise.Rd
+* Added '\value' tags to ...
+    * cat_summarise.Rd
+    * safe_max.Rd
+    * safe_mean.Rd
+    * safe_min.Rd
 
 ## R CMD check results
 
