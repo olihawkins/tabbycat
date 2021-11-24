@@ -93,7 +93,7 @@ cat_vcount(mpg$class)
 
 ### 2.1. NA handling for counting functions
 
-By default, if any NAs exist in the data their frequency is included in the results, but you can remove this by setting the `na.rm` argument to `TRUE`. This means the percentages are caclulated excluding NAs (i.e. based on the the counts shown in the table).
+By default, if any NAs exist in the data their frequency is included in the results, but you can remove this by setting the `na.rm` argument to `TRUE`. This means the percentages are caclulated excluding NAs (i.e. based on the counts shown in the table).
 
 ```r
 # Set the class of the first observation to NA
