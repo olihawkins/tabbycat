@@ -2,11 +2,11 @@
 #'
 #' Functions for tabulating and summarising categorical variables.
 #'
-#' @docType package
 #' @name tabbycat
 #' @importFrom rlang .data
 #' @importFrom magrittr %>%
-NULL
+#' @keywords internal
+"_PACKAGE"
 
 # Tell R CMD check about new operators
 if(getRversion() >= "2.15.1") {
