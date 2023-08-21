@@ -163,10 +163,10 @@ cat_contrast <- function(
         dplyr::mutate(p = .data$n / sum(.data$n)) %>%
         dplyr::mutate(group = as.character(col_group)) %>%
         dplyr::select(
-            .data$group,
-            .data[[row_cat]],
-            .data$n,
-            .data$p)
+            "group",
+            dplyr::all_of(row_cat),
+            "n",
+            "p")
 
     out_group_data <- data %>%
         dplyr::filter(.data[[col_cat]] != col_group) %>%
@@ -175,10 +175,10 @@ cat_contrast <- function(
         dplyr::mutate(p = .data$n / sum(.data$n)) %>%
         dplyr::mutate(group = other_label) %>%
         dplyr::select(
-            .data$group,
-            .data[[row_cat]],
-            .data$n,
-            .data$p)
+            "group",
+            dplyr::all_of(row_cat),
+            "n",
+            "p")
 
     if (na.rm.col == FALSE) {
 
@@ -189,10 +189,10 @@ cat_contrast <- function(
             dplyr::mutate(p = .data$n / sum(.data$n)) %>%
             dplyr::mutate(group = na_label) %>%
             dplyr::select(
-                .data$group,
-                .data[[row_cat]],
-                .data$n,
-                .data$p)
+                "group",
+                dplyr::all_of(row_cat),
+                "n",
+                "p")
 
     } else {
 
@@ -204,9 +204,9 @@ cat_contrast <- function(
             out_group_data,
             na_data) %>%
         tidyr::pivot_wider(
-            id_cols = {{row_cat}},
-            names_from = .data$group,
-            values_from = c(.data$n, .data$p)) %>%
+            id_cols = dplyr::all_of(row_cat),
+            names_from = "group",
+            values_from = c("n", "p")) %>%
         dplyr::mutate(dplyr::across(-1, ~tidyr::replace_na(.x, 0))) %>%
         dplyr::arrange(dplyr::desc(.data[[stringr::str_c("n_", col_group)]]))
 

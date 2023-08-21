@@ -85,11 +85,11 @@ cat_count <- function(
 
     # Remove columns based on only argument
     if (stringr::str_trim(only) %in% c("n", "number")) {
-        count <- count %>% dplyr::select(-.data$percent)
+        count <- count %>% dplyr::select(-c("percent"))
     }
 
     if (stringr::str_trim(only) %in% c("p", "percent")) {
-        count <- count %>% dplyr::select(-.data$number)
+        count <- count %>% dplyr::select(-c("number"))
     }
 
     count

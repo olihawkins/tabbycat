@@ -139,10 +139,10 @@ cat_compare <- function(
             dplyr::mutate(p = .data$n / sum(.data$n)) %>%
             dplyr::mutate(group = as.character(group_name)) %>%
             dplyr::select(
-                .data$group,
-                .data[[row_cat]],
-                .data$n,
-                .data$p)
+                "group",
+                dplyr::all_of(row_cat),
+                "n",
+                "p")
     })
 
     if (na.rm.col == FALSE) {
@@ -154,10 +154,10 @@ cat_compare <- function(
             dplyr::mutate(p = .data$n / sum(.data$n)) %>%
             dplyr::mutate(group = na_label) %>%
             dplyr::select(
-                .data$group,
-                .data[[row_cat]],
-                .data$n,
-                .data$p)
+                "group",
+                dplyr::all_of(row_cat),
+                "n",
+                "p")
 
     } else {
 
@@ -168,9 +168,9 @@ cat_compare <- function(
             comparison_data,
             na_data) %>%
         tidyr::pivot_wider(
-            id_cols = {{row_cat}},
-            names_from = .data$group,
-            values_from = c(.data$n, .data$p)) %>%
+            id_cols = dplyr::all_of(row_cat),
+            names_from = "group",
+            values_from = c("n", "p")) %>%
         dplyr::mutate(dplyr::across(-1, ~tidyr::replace_na(.x, 0))) %>%
         dplyr::arrange(.data[[row_cat]])
 

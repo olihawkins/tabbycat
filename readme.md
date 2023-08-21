@@ -4,7 +4,7 @@
 
 ## Status
 
-This package is fully functional but new. Please let me know if you run into any issues.
+This package is fully functional. Please let me know if you run into any issues.
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/tabbycat)](https://CRAN.R-project.org/package=tabbycat)
